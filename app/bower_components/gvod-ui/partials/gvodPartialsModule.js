@@ -18,7 +18,7 @@ angular.module('partialsApplication').controller('DownloaderController', ['parti
 
 
         self.download = function () {
-            var JSONObj = {"name ": self.filename, "identifier": self.identifier};
+            var JSONObj = {"name": self.filename, "identifier": self.identifier};
             partialsBackendServiceFactory.download(JSONObj).then(function (result) {
                 self.result = result;
                 self.downloading = true;
@@ -38,7 +38,7 @@ angular.module('partialsApplication').controller('UploaderController', ['partial
 
 
         self.upload = function () {
-            var JSONObj = {"name ": self.filename, "identifier": self.identifier};
+            var JSONObj = {"name": self.filename, "identifier": self.identifier};
             partialsBackendServiceFactory.upload(JSONObj).then(function (result) {
                 self.result = result;
                 self.uploading = true;
@@ -58,7 +58,7 @@ angular.module('partialsApplication').controller('StoperController', ['partialsB
 
 
         self.stop = function () {
-            var JSONObj = {"name ": self.filename, "identifier": self.identifier};
+            var JSONObj = {"name": self.filename, "identifier": self.identifier};
             partialsBackendServiceFactory.stop(JSONObj).then(function (result) {
                 self.result = result;
                 self.stoped = true;
