@@ -41,19 +41,19 @@
         </div>
         <div class="row" ng-if="lib.showView.length > 0 && lib.showView[$index] === true" style="border: solid 5px black;">
             <div ng-if="lib.viewToLoad === 'upload'">
-                <div ng-include="'views/partials/upload.html'"></div>
+                <!--<div ng-include="'views/partials/upload.html'"></div>-->
+                <div ng-include="'bower_components/gvod-ui/partials/upload.html'"></div>      
             </div>
             <div ng-if="lib.viewToLoad === 'download'">
-
-                <div ng-include="'views/partials/download.html'"></div>
+                <!--<div ng-include="'views/partials/download.html'"></div>-->
+                <div ng-include="'bower_components/gvod-ui/partials/download.html'"></div>
             </div>
             <div ng-if="lib.viewToLoad === 'stop'">
-
-                <div ng-include="'views/partials/stop.html'"></div>
+                <!--<div ng-include="'views/partials/stop.html'"></div>-->
+                <div ng-include="'bower_components/gvod-ui/partials/stop.html'"></div>
             </div>
-            
-            <div ng-include="'views/partials/getLibraryElement.html'"> </div>
-            
+            <!--<div ng-include="'views/partials/getLibraryElement.html'"> </div>-->
+            <div ng-include="'bower_components/gvod-ui/partials/getLibraryElement.html'"></div>
         </div>
     </div>
 
