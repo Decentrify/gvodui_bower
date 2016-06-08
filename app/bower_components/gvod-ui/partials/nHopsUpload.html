@@ -1,0 +1,48 @@
+<div class="jumbotron" ng-controller="NHopsUploadController as hopsUpldCtrl">
+
+    <form>
+        <div>
+            <div class="row">
+                <div class="col-md-4 text-center"></div>
+                <div class="col-md-4 text-center">
+                    <h2>HOPS Upload</h2>
+                </div>
+                <div class="col-md-4 text-center"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label >Hops Ip</label>
+            <input type="text" class="form-control" id="inputHopsIp" placeholder="Hops IP" ng-model="hopsUpldCtrl.hopsIp">
+        </div>
+        <div class="form-group">
+            <label >Hops Port</label>
+            <input type="text" class="form-control" id="inputHopsPort" placeholder="Hops Port" ng-model="hopsUpldCtrl.hopsPort">
+        </div>
+        <div class="form-group">
+            <label >Directory Path</label>
+            <input type="text" class="form-control" id="inputDirPath" placeholder="DirPath" ng-model="hopsUpldCtrl.dirPath">
+        </div>
+        <div class="form-group">
+            <label >Filename</label>
+            <input type="text" class="form-control" id="inputFilename" placeholder="Filename" ng-model="hopsUpldCtrl.fileName">
+        </div>
+        <div class="form-group">
+            <label >Identifier</label>
+            <input type="text" class="form-control" id="inputTorrentId" placeholder="TorrentId" ng-model="hopsUpldCtrl.torrentId">
+        </div>
+
+        <div class="form-group" style="padding-left:0;">
+            <div style="padding-left: 0;">
+                <button class="btn btn-default" ng-click="hopsUpldCtrl.upload()">
+                    <label>Upload</label>
+                    <i class="glyphicon glyphicon-upload"></i>
+                </button>
+                
+                <div class="form-group" ng-if="hopsUpldCtrl.uploading" style="margin-top:5px; display: inline-block;">
+                    <label> Uploading {{hopsUpldCtrl.result.config.data}} with status <b style="color:green;">{{hopsUpldCtrl.result.statusText}}</b> </label>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>

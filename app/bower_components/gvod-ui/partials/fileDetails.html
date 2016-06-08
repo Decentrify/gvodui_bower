@@ -1,0 +1,18 @@
+<div class="jumbotron" ng-controller="LibraryController as lib">
+
+    <span>
+        <label>File details</label>      
+    </span>
+    <div ng-if="lib.status">
+        Description [ {{lib.result.data.fileInfo.description}} ],
+        Size : [ {{lib.result.data.fileInfo.size}} ],
+        Partners : [ {{lib.result.data.torrentInfo.partners}} ],
+        Progress : [ {{lib.result.data.torrentInfo.progress}} ],
+        <div ng-if="lib.result.data.torrentStatus === 'DOWNLOADING'">
+            Download speed : [ {{lib.result.data.torrentInfo.downloadSpeed}} ],
+        </div>
+        <div ng-if="lib.result.data.torrentStatus === 'UPLOADING'">
+            Upload speed : [ {{lib.result.data.torrentInfo.uploadSpeed}} ],
+        </div>
+    </div>
+</div>
