@@ -1,0 +1,61 @@
+<div class="jumbotron" ng-controller="NHopsDownloadController as hopsDwnlCtrl">
+
+    <form>
+        <div>
+            <div class="row">
+                <div class="col-md-4 text-center"></div>
+                <div class="col-md-4 text-center">
+                    <h2>HOPS Download</h2>
+                </div>
+                <div class="col-md-4 text-center"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label >Hops Ip</label>
+            <input type="text" class="form-control" id="inputHopsIp" placeholder="Hops IP" ng-model="hopsDwnlCtrl.hopsIp">
+        </div>
+        <div class="form-group">
+            <label >Hops Port</label>
+            <input type="text" class="form-control" id="inputHopsPort" placeholder="Hops Port" ng-model="hopsDwnlCtrl.hopsPort">
+        </div>
+        <div class="form-group">
+            <label >Directory Path</label>
+            <input type="text" class="form-control" id="inputDirPath" placeholder="DirPath" ng-model="hopsDwnlCtrl.dirPath">
+        </div>
+        <div class="form-group">
+            <label >Filename</label>
+            <input type="text" class="form-control" id="inputFilename" placeholder="Filename" ng-model="hopsDwnlCtrl.fileName">
+        </div>
+        <div class="form-group">
+            <label >Identifier</label>
+            <input type="text" class="form-control" id="inputTorrentId" placeholder="TorrentId" ng-model="hopsDwnlCtrl.torrentId">
+        </div>
+
+        <div class="form-group">
+            <label >Partner Ip</label>
+            <input type="text" class="form-control" id="inputPartnerIp" placeholder="PartnerIp" ng-model="hopsDwnlCtrl.partnerIp">
+        </div>
+        <div class="form-group">
+            <label >Partner Port</label>
+            <input type="text" class="form-control" id="inputPartnerPort" placeholder="PartnerPort" ng-model="hopsDwnlCtrl.partnerPort">
+        </div>
+        <div class="form-group">
+            <label >Partner Id</label>
+            <input type="text" class="form-control" id="inputPartnerId" placeholder="PartnerId" ng-model="hopsDwnlCtrl.partnerId">
+        </div>
+
+        <div class="form-group" style="padding-left:0;">
+            <div style="padding-left: 0;">
+                <button class="btn btn-default" ng-click="hopsDwnlCtrl.download()">
+                    <label>Download</label>
+                    <i class="glyphicon glyphicon-download"></i>
+                </button>
+                
+                <div class="form-group" ng-if="hopsDwnlCtrl.downloading" style="margin-top:5px; display: inline-block;">
+                    <label> Downloading {{hopsDwnlCtrl.result.config.data}} with status <b style="color:green;">{{hopsDwnlCtrl.result.statusText}}</b> </label>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>

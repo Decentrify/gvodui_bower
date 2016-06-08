@@ -286,3 +286,111 @@ angular.module('partialsApplication').factory('partialsBackendServiceFactory', [
         return service;
     }]);
 
+//new controllers
+angular.module('partialsApplication').factory('nRestCalls', ['nRestServerState','$http', function (nRestServerState, $http) {
+    var service = {
+        hopsContents: function () {
+            return $http({
+                method: 'GET',
+                url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + '/library/hops/contents',
+            });
+        },
+        hopsUpload: function (json) {
+            return $http({
+                method: 'PUT',
+                url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + '/torrent/hops/upload',
+                data: json
+            });
+        },
+        hopsDownload: function (json) {
+            return $http({
+                method: 'PUT',
+                url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + '/torrent/hops/download',
+                data: json
+            });
+        }
+    };
+    return service;
+}]);
+angular.module('partialsApplication').factory('nRestServerState', [function () {
+     var state = {
+            url :"http://localhost",
+            port : "8080",
+            setPort : function (port) {
+                this.port = port;
+            },
+            setURL : function (url) {
+                this.url = url;
+            },
+            getURL : function(){
+                return this.url;
+            },
+            getPort : function () {
+                return this.port;
+            }
+        };
+        return state;
+}]);
+angular.module('partialsApplication').controller('NRestServerController', ['nRestServerState', function (nRestServerState) {
+    var self = this;
+    self.url = nRestServerState.getURL();
+    self.port = nRestServerState.getPort();
+
+    self.setURL = function(){
+        nRestServerState.setURL(self.url);
+    }
+    self.setPORT = function(){
+        nRestServerState.setPort(self.port);
+    }
+}]);
+
+angular.module('partialsApplication').controller('NHopsContentsController', ['nRestCalls', function (nRestCalls) {
+        var self = this;
+
+        self.getContents = function () {
+            nRestCalls.hopsContents().then(function (result) {
+                self.result = result;
+            });
+
+        };
+    }]);
+
+angular.module('partialsApplication').controller('NHopsUploadController', ['nRestCalls', function (nRestCalls) {
+        var self = this;
+        self.hopsIp = "hdfs://";
+        self.hopsPort = "10000";
+        self.dirPath = "/";
+        self.fileName = "file";
+        self.torrentId = "1";
+        self.uploading = false;
+
+        self.upload = function () {
+            var JSONObj = {"hopsIp": self.hopsIp, "hopsPort": self.hopsPort, "dirPath": self.dirPath, "fileName": self.fileName, "torrentId": self.torrentId};
+            nRestCalls.hopsUpload(JSONObj).then(function (result) {
+                self.result = result;
+                self.uploading = true;
+            })
+        };
+    }]);
+
+angular.module('partialsApplication').controller('NHopsDownloadController', ['nRestCalls', function (nRestCalls) {
+        var self = this;
+        self.hopsIp = "hdfs://";
+        self.hopsPort = "10000";
+        self.dirPath = "/";
+        self.fileName = "file";
+        self.torrentId = "1";
+        self.partnerIp = "";
+        self.partnerPort = "20000";
+        self.partnerId = "1";
+        self.downloading = false;
+
+        self.download = function () {
+            var JSONObj = {"hopsIp": self.hopsIp, "hopsPort": self.hopsPort, "dirPath": self.dirPath, "fileName": self.fileName, 
+                "torrentId": self.torrentId, "partners": [{"ip": self.partnerIp, "port": self.partnerPort, "id": self.partnerId}]};
+            nRestCalls.hopsDownload(JSONObj).then(function (result) {
+                self.result = result;
+                self.downloading = true;
+            })
+        };
+    }]);

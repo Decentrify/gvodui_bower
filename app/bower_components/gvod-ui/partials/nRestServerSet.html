@@ -1,0 +1,28 @@
+<div class="jumbotron" ng-controller="NRestServerController as restServer">
+    <form>
+        <div>
+            <div class="row">
+                <div class="col-md-4 text-center"></div>
+                <div class="col-md-4 text-center">
+                    <h2>REST Server</h2>
+                </div>
+                <div class="col-md-4 text-center"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label >URL</label>
+            <input type="text" class="form-control" id="url" placeholder="url" ng-model="restServer.url">
+        </div>
+        <div class="form-group">
+            <label >Port</label>
+            <input type="text" class="form-control" id="port" placeholder="Identifier" ng-model="restServer.port">
+        </div>
+        <div class="form-group" style="padding-left:0;">
+            <div style="padding-left: 0;">
+                <button class="btn btn-default" ng-click="restServer.setURL(); restServer.setPORT();">
+                    <label>Set</label>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
