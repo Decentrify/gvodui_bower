@@ -289,10 +289,17 @@ angular.module('partialsApplication').factory('partialsBackendServiceFactory', [
 //new controllers
 angular.module('partialsApplication').factory('nRestCalls', ['nRestServerState','$http', function (nRestServerState, $http) {
     var service = {
-        hopsContents: function () {
+        contents: function () {
             return $http({
                 method: 'GET',
-                url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + '/library/hops/contents',
+                url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + '/library/contents'
+            });
+        },
+        torrentStatus: function (json) {
+            return $http({
+                method: 'PUT',
+                url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + '/library/torrentStatus',
+                data: json
             });
         },
         hopsUpload: function (json) {
@@ -315,7 +322,7 @@ angular.module('partialsApplication').factory('nRestCalls', ['nRestServerState',
 angular.module('partialsApplication').factory('nRestServerState', [function () {
      var state = {
             url :"http://localhost",
-            port : "8080",
+            port : "18180",
             setPort : function (port) {
                 this.port = port;
             },
@@ -344,12 +351,28 @@ angular.module('partialsApplication').controller('NRestServerController', ['nRes
     }
 }]);
 
-angular.module('partialsApplication').controller('NHopsContentsController', ['nRestCalls', function (nRestCalls) {
+angular.module('partialsApplication').controller('NContentsController', ['nRestCalls', function (nRestCalls) {
         var self = this;
 
         self.getContents = function () {
-            nRestCalls.hopsContents().then(function (result) {
+            nRestCalls.contents().then(function (result) {
                 self.result = result;
+            });
+
+        };
+    }]);
+
+angular.module('partialsApplication').controller('NTorrentStatusController', ['nRestCalls', function (nRestCalls) {
+        var self = this;
+        self.fileName = "file";
+        self.torrentId = "1";
+        self.done = false;
+
+        self.getTorrentStatus = function () {
+            var JSONObj = {"name": self.fileName, "identifier": self.torrentId};
+            nRestCalls.torrentStatus(JSONObj).then(function (result) {
+                self.result = result;
+                self.done = true;
             });
 
         };
@@ -357,9 +380,9 @@ angular.module('partialsApplication').controller('NHopsContentsController', ['nR
 
 angular.module('partialsApplication').controller('NHopsUploadController', ['nRestCalls', function (nRestCalls) {
         var self = this;
-        self.hopsIp = "hdfs://";
-        self.hopsPort = "10000";
-        self.dirPath = "/";
+        self.hopsIp = "hdfs://bbc1.sics.se";
+        self.hopsPort = "26801";
+        self.dirPath = "/experiment/upload/";
         self.fileName = "file";
         self.torrentId = "1";
         self.uploading = false;
@@ -375,13 +398,13 @@ angular.module('partialsApplication').controller('NHopsUploadController', ['nRes
 
 angular.module('partialsApplication').controller('NHopsDownloadController', ['nRestCalls', function (nRestCalls) {
         var self = this;
-        self.hopsIp = "hdfs://";
-        self.hopsPort = "10000";
-        self.dirPath = "/";
+        self.hopsIp = "hdfs://bbc1.sics.se";
+        self.hopsPort = "26801";
+        self.dirPath = "/experiment/download/";
         self.fileName = "file";
         self.torrentId = "1";
-        self.partnerIp = "";
-        self.partnerPort = "20000";
+        self.partnerIp = "193.10.67.178";
+        self.partnerPort = "30000";
         self.partnerId = "1";
         self.downloading = false;
 
