@@ -1,0 +1,41 @@
+<div class="jumbotron" ng-controller="NTorrentStatusController as torrentStatusCtrl">
+
+    <div>
+        <div class="row">
+            <div class="col-md-4 text-center">
+            </div>
+            <div class="col-md-4 text-center">
+                <h2>Torrent Status</h2>
+            </div>
+            <div class="col-md-4 text-center">
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label >File Name</label>
+        <input type="text" class="form-control" id="inputFileName" placeholder="File Name" ng-model="torrentStatusCtrl.fileName">
+    </div>
+    <div class="form-group">
+        <label >TorrentId</label>
+        <input type="text" class="form-control" id="inputTorrentId" placeholder="TorrentId" ng-model="torrentStatusCtrl.torrentId">
+    </div>
+    <div class="form-group" style="padding-left:0;">
+        <div style="padding-left: 0;">
+            <button class="btn btn-default" ng-click="torrentStatusCtrl.getTorrentStatus()">
+                <label>TorrentStatus</label>
+                <i class="glyphicon glyphicon-torrentStatus"></i>
+            </button>    
+            <div class="form-group" ng-if="torrentStatusCtrl.done" style="margin-top:5px; display: inline-block;">
+                <label> Downloading {{torrentStatusCtrl.result.config.data}} with status <b style="color:green;">{{torrentStatusCtrl.result.statusText}}</b> </label>
+            </div>
+        </div>
+    </div>
+   <div class="form-group" ng-if="torrentStatusCtrl.done">
+        <label >Torrent Status</label>
+        <input type="text" ng-readonly="true" class="form-control" id="inputTorrentStatus" placeholder="TorrentStatus" ng-model="torrentStatusCtrl.result.data.torrentStatus">
+    </div>
+    <div class="form-group" ng-if="torrentStatusCtrl.done">
+        <label >Download Speed</label>
+        <input type="text" ng-readonly="true" class="form-control" id="inputDownloadSpeed" placeholder="DownloadSpeed" ng-model="torrentStatusCtrl.result.data.downloadSpeed">
+    </div>
+</div>
