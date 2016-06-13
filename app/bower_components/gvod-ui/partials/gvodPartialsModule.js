@@ -289,6 +289,19 @@ angular.module('partialsApplication').factory('partialsBackendServiceFactory', [
 //new controllers
 angular.module('partialsApplication').factory('nRestCalls', ['nRestServerState','$http', function (nRestServerState, $http) {
     var service = {
+        vodEndpoint: function () {
+            return $http({
+                method: 'GET',
+                url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + '/vod/endpoint'
+            });
+        },
+        hopsConnection: function (json) {
+            return $http({
+                method: 'PUT',
+                url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + '/vod/hops',
+                data: json
+            });
+        },
         contents: function () {
             return $http({
                 method: 'GET',
@@ -458,6 +471,33 @@ angular.module('partialsApplication').controller('NHopsDeleteController', ['nRes
         self.delete = function () {
             var JSONObj = {"hopsIp": self.hopsIp, "hopsPort": self.hopsPort, "dirPath": self.dirPath, "fileName": self.fileName};
             nRestCalls.hopsDelete(JSONObj).then(function (result) {
+                self.result = result;
+                self.report = true;
+            })
+        };
+    }]);
+
+angular.module('partialsApplication').controller('NVoDEndpointController', ['nRestCalls', function (nRestCalls) {
+        var self = this;
+        self.report = false;
+
+        self.vodEndpoint = function () {
+            nRestCalls.vodEndpoint().then(function (result) {
+                self.result = result;
+                self.report = true;
+            })
+        };
+    }]);
+
+angular.module('partialsApplication').controller('NVoDHopsController', ['nRestCalls', function (nRestCalls) {
+        var self = this;
+        self.hopsIp = "hdfs://bbc1.sics.se";
+        self.hopsPort = "26801";
+        self.report = false;
+
+        self.hopsConnection = function () {
+            var JSONObj = {"hopsIp": self.hopsIp, "hopsPort": self.hopsPort};
+            nRestCalls.hopsConnection(JSONObj).then(function (result) {
                 self.result = result;
                 self.report = true;
             })
