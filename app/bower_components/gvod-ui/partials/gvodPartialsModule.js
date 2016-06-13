@@ -369,7 +369,7 @@ angular.module('partialsApplication').controller('NTorrentStatusController', ['n
         self.done = false;
 
         self.getTorrentStatus = function () {
-            var JSONObj = {"name": self.fileName, "identifier": self.torrentId};
+            var JSONObj = {"fileName": self.fileName, "torrentId": self.torrentId};
             nRestCalls.torrentStatus(JSONObj).then(function (result) {
                 self.result = result;
                 self.done = true;

@@ -38,4 +38,8 @@
         <label >Download Speed</label>
         <input type="text" ng-readonly="true" class="form-control" id="inputDownloadSpeed" placeholder="DownloadSpeed" ng-model="torrentStatusCtrl.result.data.downloadSpeed">
     </div>
+    <div class="form-group" ng-if="torrentStatusCtrl.done">
+        <label >Download Progress</label>
+        <input type="text" ng-readonly="true" class="form-control" id="inputProgress" placeholder="DownloadProgress" ng-model="torrentStatusCtrl.result.data.percentageCompleted">
+    </div>
 </div>
