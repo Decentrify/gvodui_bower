@@ -315,6 +315,20 @@ angular.module('partialsApplication').factory('nRestCalls', ['nRestServerState',
                 url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + '/torrent/hops/download',
                 data: json
             });
+        }, 
+        hopsStop: function (json) {
+            return $http({
+                method: 'PUT',
+                url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + '/torrent/hops/stop',
+                data: json
+            });
+        },
+        hopsDelete: function (json) {
+            return $http({
+                method: 'PUT',
+                url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + '/file/hops/delete',
+                data: json
+            });
         }
     };
     return service;
@@ -414,6 +428,38 @@ angular.module('partialsApplication').controller('NHopsDownloadController', ['nR
             nRestCalls.hopsDownload(JSONObj).then(function (result) {
                 self.result = result;
                 self.downloading = true;
+            })
+        };
+    }]);
+
+angular.module('partialsApplication').controller('NHopsStopController', ['nRestCalls', function (nRestCalls) {
+        var self = this;
+        self.fileName = "file";
+        self.torrentId = "1";
+        self.report = false;
+
+        self.stop = function () {
+            var JSONObj = {"fileName": self.fileName, "torrentId": self.torrentId};
+            nRestCalls.hopsStop(JSONObj).then(function (result) {
+                self.result = result;
+                self.report = true;
+            })
+        };
+    }]);
+
+angular.module('partialsApplication').controller('NHopsDeleteController', ['nRestCalls', function (nRestCalls) {
+        var self = this;
+        self.hopsIp = "hdfs://bbc1.sics.se";
+        self.hopsPort = "26801";
+        self.dirPath = "/experiment/download/";
+        self.fileName = "file";
+        self.report = false;
+
+        self.delete = function () {
+            var JSONObj = {"hopsIp": self.hopsIp, "hopsPort": self.hopsPort, "dirPath": self.dirPath, "fileName": self.fileName};
+            nRestCalls.hopsDelete(JSONObj).then(function (result) {
+                self.result = result;
+                self.report = true;
             })
         };
     }]);
