@@ -1,11 +1,11 @@
-<div class="jumbotron" ng-controller="NHopsDeleteController as hopsCtrl">
+<div class="jumbotron" ng-controller="NHopsCreateController as hopsCtrl">
 
     <form>
         <div>
             <div class="row">
                 <div class="col-md-4 text-center"></div>
                 <div class="col-md-4 text-center">
-                    <h2>Hops Delete</h2>
+                    <h2>Hops Create</h2>
                 </div>
                 <div class="col-md-4 text-center"></div>
             </div>
@@ -26,16 +26,20 @@
             <label >Filename</label>
             <input type="text" class="form-control" id="inputFilename" placeholder="Filename" ng-model="hopsCtrl.fileName">
         </div>
+        <div class="form-group">
+            <label >FileSize</label>
+            <input type="text" class="form-control" id="inputFileSize" placeholder="FileSize" ng-model="hopsCtrl.fileSize">
+        </div>
 
         <div class="form-group" style="padding-left:0;">
             <div style="padding-left: 0;">
-                <button class="btn btn-default" ng-click="hopsCtrl.delete()">
-                    <label>Delete</label>
+                <button class="btn btn-default" ng-click="hopsCtrl.create()">
+                    <label>Create</label>
                     <i class="glyphicon glyphicon-download"></i>
                 </button>
                 
                 <div class="form-group" ng-if="hopsCtrl.report" style="margin-top:5px; display: inline-block;">
-                    <label> Delete {{hopsCtrl.result.config.data}} with status <b style="color:green;">{{hopsCtrl.result.statusText}}</b> </label>
+                    <label> Create {{hopsCtrl.result.config.data}} with status <b style="color:green;">{{hopsCtrl.result.statusText}}</b> </label>
                 </div>
             </div>
         </div>

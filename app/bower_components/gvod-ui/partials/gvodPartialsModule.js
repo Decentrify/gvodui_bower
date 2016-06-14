@@ -342,6 +342,13 @@ angular.module('partialsApplication').factory('nRestCalls', ['nRestServerState',
                 url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + '/file/hops/delete',
                 data: json
             });
+        },
+        hopsCreate: function (json) {
+            return $http({
+                method: 'PUT',
+                url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + '/file/hops/create',
+                data: json
+            });
         }
     };
     return service;
@@ -471,6 +478,24 @@ angular.module('partialsApplication').controller('NHopsDeleteController', ['nRes
         self.delete = function () {
             var JSONObj = {"hopsIp": self.hopsIp, "hopsPort": self.hopsPort, "dirPath": self.dirPath, "fileName": self.fileName};
             nRestCalls.hopsDelete(JSONObj).then(function (result) {
+                self.result = result;
+                self.report = true;
+            })
+        };
+    }]);
+
+angular.module('partialsApplication').controller('NHopsCreateController', ['nRestCalls', function (nRestCalls) {
+       var self = this;
+        self.hopsIp = "hdfs://bbc1.sics.se";
+        self.hopsPort = "26801";
+        self.dirPath = "/experiment/download/";
+        self.fileName = "file";
+        self.fileSize = "100000000";
+        self.report = false;
+
+        self.create = function () {
+            var JSONObj = {"base": {"hopsIp": self.hopsIp, "hopsPort": self.hopsPort, "dirPath": self.dirPath, "fileName": self.fileName}, "size": self.fileSize};
+            nRestCalls.hopsCreate(JSONObj).then(function (result) {
                 self.result = result;
                 self.report = true;
             })
