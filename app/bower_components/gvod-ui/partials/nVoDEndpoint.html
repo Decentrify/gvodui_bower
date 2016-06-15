@@ -1,0 +1,37 @@
+<div class="jumbotron" ng-controller="NVoDEndpointController as vodCtrl">
+
+    <div>
+        <div class="row">
+            <div class="col-md-4 text-center">
+            </div>
+            <div class="col-md-4 text-center">
+                <h2>VoD Endpoint</h2>
+            </div>
+            <div class="col-md-4 text-center">
+            </div>
+        </div>
+    </div>
+    <div class="form-group" style="padding-left:0;">
+        <div style="padding-left: 0;">
+            <button class="btn btn-default" ng-click="vodCtrl.vodEndpoint()">
+                <label>VoDEndpoint</label>
+                <i class="glyphicon glyphicon-torrentStatus"></i>
+            </button>    
+            <div class="form-group" ng-if="vodCtrl.done" style="margin-top:5px; display: inline-block;">
+                <label> Endpoint {{vodCtrl.result.config.data}} with status <b style="color:green;">{{vodCtrl.result.statusText}}</b> </label>
+            </div>
+        </div>
+    </div>
+   <div class="form-group" ng-if="vodCtrl.report">
+        <label >Ip</label>
+        <input type="text" ng-readonly="true" class="form-control" id="inputIp" placeholder="Ip" ng-model="vodCtrl.result.data.ip">
+    </div>
+    <div class="form-group" ng-if="vodCtrl.report">
+        <label >Port</label>
+        <input type="text" ng-readonly="true" class="form-control" id="inputPort" placeholder="Port" ng-model="vodCtrl.result.data.port">
+    </div>
+    <div class="form-group" ng-if="vodCtrl.report">
+        <label >Id</label>
+        <input type="text" ng-readonly="true" class="form-control" id="inputId" placeholder="Id" ng-model="vodCtrl.result.data.id">
+    </div>
+</div>

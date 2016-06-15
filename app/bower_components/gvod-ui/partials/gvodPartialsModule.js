@@ -289,6 +289,12 @@ angular.module('partialsApplication').factory('partialsBackendServiceFactory', [
 //new controllers
 angular.module('partialsApplication').factory('nRestCalls', ['nRestServerState','$http', function (nRestServerState, $http) {
     var service = {
+        vodEndpoint: function () {
+            return $http({
+                method: 'GET',
+                url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + '/vod/endpoint'
+            });
+        },
         contents: function () {
             return $http({
                 method: 'GET',
@@ -313,6 +319,34 @@ angular.module('partialsApplication').factory('nRestCalls', ['nRestServerState',
             return $http({
                 method: 'PUT',
                 url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + '/torrent/hops/download',
+                data: json
+            });
+        }, 
+        hopsStop: function (json) {
+            return $http({
+                method: 'PUT',
+                url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + '/torrent/hops/stop',
+                data: json
+            });
+        },
+        hdfsConnection: function (json) {
+            return $http({
+                method: 'PUT',
+                url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + '/hdfs/connection',
+                data: json
+            });
+        },
+        hdfsDelete: function (json) {
+            return $http({
+                method: 'PUT',
+                url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + '/hdfs/file/delete',
+                data: json
+            });
+        },
+        hdfsCreate: function (json) {
+            return $http({
+                method: 'PUT',
+                url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + '/hdfs/file/create',
                 data: json
             });
         }
@@ -369,7 +403,7 @@ angular.module('partialsApplication').controller('NTorrentStatusController', ['n
         self.done = false;
 
         self.getTorrentStatus = function () {
-            var JSONObj = {"name": self.fileName, "identifier": self.torrentId};
+            var JSONObj = {"fileName": self.fileName, "torrentId": self.torrentId};
             nRestCalls.torrentStatus(JSONObj).then(function (result) {
                 self.result = result;
                 self.done = true;
@@ -384,11 +418,13 @@ angular.module('partialsApplication').controller('NHopsUploadController', ['nRes
         self.hopsPort = "26801";
         self.dirPath = "/experiment/upload/";
         self.fileName = "file";
+        self.user = "glassfish";
         self.torrentId = "1";
         self.uploading = false;
 
         self.upload = function () {
-            var JSONObj = {"hopsIp": self.hopsIp, "hopsPort": self.hopsPort, "dirPath": self.dirPath, "fileName": self.fileName, "torrentId": self.torrentId};
+            var JSONObj = {"resource": {"hopsIp": self.hopsIp, "hopsPort": self.hopsPort, "dirPath": self.dirPath, 
+            "fileName": self.fileName}, "user": self.user, "torrentId": self.torrentId};
             nRestCalls.hopsUpload(JSONObj).then(function (result) {
                 self.result = result;
                 self.uploading = true;
@@ -402,6 +438,7 @@ angular.module('partialsApplication').controller('NHopsDownloadController', ['nR
         self.hopsPort = "26801";
         self.dirPath = "/experiment/download/";
         self.fileName = "file";
+        self.user = "glassfish";
         self.torrentId = "1";
         self.partnerIp = "193.10.67.178";
         self.partnerPort = "30000";
@@ -409,11 +446,93 @@ angular.module('partialsApplication').controller('NHopsDownloadController', ['nR
         self.downloading = false;
 
         self.download = function () {
-            var JSONObj = {"hopsIp": self.hopsIp, "hopsPort": self.hopsPort, "dirPath": self.dirPath, "fileName": self.fileName, 
-                "torrentId": self.torrentId, "partners": [{"ip": self.partnerIp, "port": self.partnerPort, "id": self.partnerId}]};
+            var JSONObj = {"resource":{"hopsIp": self.hopsIp, "hopsPort": self.hopsPort, "dirPath": self.dirPath, 
+            "fileName": self.fileName}, "user": self.user, "torrentId": self.torrentId, 
+            "partners": [{"ip": self.partnerIp, "port": self.partnerPort, "id": self.partnerId}]};
             nRestCalls.hopsDownload(JSONObj).then(function (result) {
                 self.result = result;
                 self.downloading = true;
+            })
+        };
+    }]);
+
+angular.module('partialsApplication').controller('NHopsStopController', ['nRestCalls', function (nRestCalls) {
+        var self = this;
+        self.fileName = "file";
+        self.torrentId = "1";
+        self.report = false;
+
+        self.stop = function () {
+            var JSONObj = {"fileName": self.fileName, "torrentId": self.torrentId};
+            nRestCalls.hopsStop(JSONObj).then(function (result) {
+                self.result = result;
+                self.report = true;
+            })
+        };
+    }]);
+
+angular.module('partialsApplication').controller('NHopsDeleteController', ['nRestCalls', function (nRestCalls) {
+        var self = this;
+        self.hopsIp = "bbc1.sics.se";
+        self.hopsPort = "26801";
+        self.dirPath = "/experiment/download/";
+        self.fileName = "file";
+        self.user = "glassfish";
+        self.report = false;
+
+        self.delete = function () {
+            var JSONObj = {"resource": {"hopsIp": self.hopsIp, "hopsPort": self.hopsPort, "dirPath": self.dirPath, 
+            "fileName": self.fileName}, "user": self.user};
+            nRestCalls.hdfsDelete(JSONObj).then(function (result) {
+                self.result = result;
+                self.report = true;
+            })
+        };
+    }]);
+
+angular.module('partialsApplication').controller('NHopsCreateController', ['nRestCalls', function (nRestCalls) {
+       var self = this;
+        self.hopsIp = "bbc1.sics.se";
+        self.hopsPort = "26801";
+        self.dirPath = "/experiment/download/";
+        self.fileName = "file";
+        self.user = "glassfish";
+        self.fileSize = "100000000";
+        self.report = false;
+
+        self.create = function () {
+            var JSONObj = {"resource": {"hopsIp": self.hopsIp, "hopsPort": self.hopsPort, "dirPath": self.dirPath, 
+            "fileName": self.fileName}, "user": self.user, "fileSize": self.fileSize};
+            nRestCalls.hdfsCreate(JSONObj).then(function (result) {
+                self.result = result;
+                self.report = true;
+            })
+        };
+    }]);
+
+angular.module('partialsApplication').controller('NVoDEndpointController', ['nRestCalls', function (nRestCalls) {
+        var self = this;
+        self.report = false;
+
+        self.vodEndpoint = function () {
+            nRestCalls.vodEndpoint().then(function (result) {
+                self.result = result;
+                self.report = true;
+            })
+        };
+    }]);
+
+angular.module('partialsApplication').controller('NVoDHopsController', ['nRestCalls', function (nRestCalls) {
+        var self = this;
+        self.hopsIp = "bbc1.sics.se";
+        self.hopsPort = "26801";
+        self.report = false;
+
+        self.hopsConnection = function () {
+            var JSONObj = {"hopsIp": self.hopsIp, "hopsPort": self.hopsPort};
+            nRestCalls.hdfsConnection(JSONObj).then(function (result) {
+                self.result = result;
+                self.report = true;
             })
         };
     }]);
