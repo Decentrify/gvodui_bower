@@ -414,7 +414,7 @@ angular.module('partialsApplication').controller('NTorrentStatusController', ['n
 
 angular.module('partialsApplication').controller('NHopsUploadController', ['nRestCalls', function (nRestCalls) {
         var self = this;
-        self.hopsIp = "hdfs://bbc1.sics.se";
+        self.hopsIp = "bbc1.sics.se";
         self.hopsPort = "26801";
         self.dirPath = "/experiment/upload/";
         self.fileName = "file";
@@ -434,7 +434,7 @@ angular.module('partialsApplication').controller('NHopsUploadController', ['nRes
 
 angular.module('partialsApplication').controller('NHopsDownloadController', ['nRestCalls', function (nRestCalls) {
         var self = this;
-        self.hopsIp = "hdfs://bbc1.sics.se";
+        self.hopsIp = "bbc1.sics.se";
         self.hopsPort = "26801";
         self.dirPath = "/experiment/download/";
         self.fileName = "file";
