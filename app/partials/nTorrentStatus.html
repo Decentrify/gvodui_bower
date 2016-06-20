@@ -1,4 +1,4 @@
-<div class="jumbotron" ng-controller="NTorrentStatusController as torrentStatusCtrl">
+<!-- <div class="jumbotron" ng-controller="NTorrentStatusController as ctrl">
 
     <div>
         <div class="row">
@@ -13,33 +13,33 @@
     </div>
     <div class="form-group">
         <label >File Name</label>
-        <input type="text" class="form-control" id="inputFileName" placeholder="File Name" ng-model="torrentStatusCtrl.fileName">
+        <input type="text" class="form-control" id="inputFileName" placeholder="File Name" ng-model="ctrl.op().getSelectedFile().getFilename()">
     </div>
     <div class="form-group">
         <label >TorrentId</label>
-        <input type="text" class="form-control" id="inputTorrentId" placeholder="TorrentId" ng-model="torrentStatusCtrl.torrentId">
+        <input type="text" class="form-control" id="inputTorrentId" placeholder="TorrentId" ng-model="ctrl.op().getSelectedFile().getTorrentId()">
     </div>
     <div class="form-group" style="padding-left:0;">
         <div style="padding-left: 0;">
-            <button class="btn btn-default" ng-click="torrentStatusCtrl.getTorrentStatus()">
+            <button class="btn btn-default" ng-click="ctrl.op().triggerTorrentStatus()">
                 <label>TorrentStatus</label>
                 <i class="glyphicon glyphicon-torrentStatus"></i>
             </button>    
-            <div class="form-group" ng-if="torrentStatusCtrl.done" style="margin-top:5px; display: inline-block;">
-                <label> Downloading {{torrentStatusCtrl.result.config.data}} with status <b style="color:green;">{{torrentStatusCtrl.result.statusText}}</b> </label>
+            <div class="form-group" ng-if="ctrl.op().getRESTResult().report()" style="margin-top:5px; display: inline-block;">
+                <label> Downloading {{ctrl.op().getRESTResult().getReq()}} with status <b style="color:green;">{{ctrl.op().getRESTResult().getStatus()}}</b> </label>
             </div>
         </div>
     </div>
-   <div class="form-group" ng-if="torrentStatusCtrl.done">
+   <div class="form-group" ng-if="ctrl.report()">
         <label >Torrent Status</label>
-        <input type="text" ng-readonly="true" class="form-control" id="inputTorrentStatus" placeholder="TorrentStatus" ng-model="torrentStatusCtrl.result.data.torrentStatus">
+        <input type="text" ng-readonly="true" class="form-control" id="inputTorrentStatus" placeholder="TorrentStatus" ng-model="ctrl.op().getSelectedTorrentOutDetails().getStatus()">
     </div>
-    <div class="form-group" ng-if="torrentStatusCtrl.done">
+    <div class="form-group" ng-if="ctrl.done">
         <label >Download Speed</label>
-        <input type="text" ng-readonly="true" class="form-control" id="inputDownloadSpeed" placeholder="DownloadSpeed" ng-model="torrentStatusCtrl.result.data.downloadSpeed">
+        <input type="text" ng-readonly="true" class="form-control" id="inputDownloadSpeed" placeholder="DownloadSpeed" ng-model="ctrl.op().getSelectedTorrentOutDetails().getSpeed()">
     </div>
-    <div class="form-group" ng-if="torrentStatusCtrl.done">
+    <div class="form-group" ng-if="ctrl.done">
         <label >Download Progress</label>
-        <input type="text" ng-readonly="true" class="form-control" id="inputProgress" placeholder="DownloadProgress" ng-model="torrentStatusCtrl.result.data.percentageCompleted">
+        <input type="text" ng-readonly="true" class="form-control" id="inputProgress" placeholder="DownloadProgress" ng-model="ctrl.op().getSelectedTorrentOutDetails().getProgress()">
     </div>
-</div>
+</div> -->
