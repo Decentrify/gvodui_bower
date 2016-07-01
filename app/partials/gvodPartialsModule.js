@@ -95,115 +95,48 @@ angular.module('partialsApplication').factory('nHDFSEndpoint', [function () {
     var hdfsEndpoint = {
         ip : "cloud1.sics.se",
         port : "26801",
-        user : "glassfish",
-        dir : "/experiment/upload",
-        file : "file",
-        setIp : function(ip) {
-            this.ip = ip;
-        },
-        getIp : function() {
-            return ip;
-        },
-        setPort : function(port) {
-            this.port = port;
-        },
-        getPort : function() {
-            return port;
-        },
-        setUser : function(user) {
-            this.user = user;
-        },
-        getUser : function() {
-            return user;
-        },
-        setDir : function(dir) {
-            this.dir = dir;
-        },
-        getDir : function() {
-            return dir;
-        },
-        setFile : function(file) {
-            this.file = file;
-        },
-        getFile : function() {
-            return file;
-        },
-        getJSON : function() {
-            return {"hopsIp": hopsIp, "hopsPort": hopsPort, "user": user, "dirPath": dirPath, "fileName": fileName};
-        }
-
+        user : "glassfish"
     };
     return hdfsEndpoint;
+}]);
+
+angular.module('partialsApplication').factory('nHDFSResource', ['nHDFSEndpoint', function (nHDFSEndpoint) {
+    var hdfsResource = {
+        endpoint : nHDFSEndpoint,
+        dir : "/experiment/upload",
+        file : "file",
+        getJSON : function() {
+            return {"hopsIp": endpoint.hopsIp, "hopsPort": endpoint.hopsPort, "user": endpoint.user, "dirPath": dirPath, "fileName": fileName};
+        }
+    };
+    return hdfsResource;
 }]);
 
 angular.module('partialsApplication').factory('nKafkaEndpoint', [function () {
     var kafkaEndpoint = {
         brokerEndpoint : "brokerEndpoint",
         restEndpoint : "restEndpoint",
-        domain : "domain",
+        domain : "domain"
+    };
+    return kafkaEndpoint;
+}]);
+
+angular.module('partialsApplication').factory('nKafkaResource', ['nKafkaEndpoint', function (nKafkaEndpoint) {
+    var kafkaResource = {
+        endpoint : nKafkaEndpoint,
         sessionId : "sessionId",
         projectId : "projectId",
         topicName : "topicName",
         schemaName : "schemaName",
         keyStore : "keyStore",
         trustStore : "trustStore",
-        setBrokerEndpoint : function(brokerEndpoint) {
-            this.brokerEndpoint = brokerEndpoint;
-        },
-        getBrokerEndpoint : function() {
-            return brokerEndpoint;
-        },
-        setRestEndpoint : function(restEndpoint) {
-            this.restEndpoint = restEndpoint;
-        },
-        getRestEndpoint : function() {
-            return restEndpoint;
-        },
-        setDomain : function(domain) {
-            this.domain = domain;
-        },
-        getDomain : function() {
-            return domain;
-        },
-        setSessionId : function(sessionId) {
-            this.sessionId = sessionId;
-        },
-        getSessionId : function() {
-            return sessionId;
-        },
-        setProjectId : function(projectId) {
-            this.projectId = projectId;
-        },
-        getProjectId : function() {
-            return projectId;
-        },
-        setTopicId : function(topicId) {
-            this.topicId = topicId;
-        },
-        getTopicId : function() {
-            return topicId;
-        },
-        setSchemaName : function(schemaName) {
-            this.schemaName = schemaName;
-        },
-        getSchemaName : function() {
-            return schemaName;
-        },
-        setKeyStore : function(keyStore) {
-            this.keyStore = keyStore;
-        },
-        getKeyStore : function() {
-            return keyStore;
-        },
-        setTrustStore : function(trustStore) {
-            this.trustStore = trustStore;
-        },
         getJSON : function() {
-            return {"brokerEndpoint": brokerEndpoint, "restEndpoint": restEndpoint, "domain": domain, "sessionId": sessionId,
-            "projectId": projectId, "topicName": topicName, "schemaName": schemaName, "keyStore": keyStore, "trustStore": trustStore};
+            return {"brokerEndpoint": endpoint.brokerEndpoint, "restEndpoint": endpoint.restEndpoint, "domain": endpoint.domain, 
+            "sessionId": sessionId, "projectId": projectId, "topicName": topicName, "schemaName": schemaName, "keyStore": keyStore, 
+            "trustStore": trustStore};
         }
     };
-    return kafkaEndpoint;
+    return kafkaResource;
 }]);
 
 angular.module('partialsApplication').controller('NRestServerController', ['nRestServerState', function (nRestServerState) {
@@ -246,16 +179,16 @@ angular.module('partialsApplication').controller('NTorrentStatusController', ['n
         };
     }]);
 
-angular.module('partialsApplication').controller('NHopsUploadController', ['nHDFSEndpoint', 'nRestCalls', 
-    function (nHDFSEndpoint, nRestCalls) {
+angular.module('partialsApplication').controller('NHopsUploadController', ['nHDFSResource', 'nRestCalls', 
+    function (nHDFSResource, nRestCalls) {
         var self = this;
-        self.hdfsEndpoint = nHDFSEndpoint;
+        self.hdfsResource = nHDFSResource;
         self.torrentId = "1";
         self.uploading = false;
 
         self.upload = function () {
-            var hdfsEndpointJSON = nHDFSEndpoint.getJSON();
-            var reqJSON = {"resource": hdfsEndpointJSON, "torrentId": {"val": self.torrentId}};
+            var hdfsResourceJSON = nHDFSResource.getJSON();
+            var reqJSON = {"resource": hdfsResourceJSON, "torrentId": {"val": self.torrentId}};
             nRestCalls.hopsUpload(reqJSON).then(function (result) {
                 self.result = result;
                 self.uploading = true;
@@ -263,11 +196,11 @@ angular.module('partialsApplication').controller('NHopsUploadController', ['nHDF
         };
     }]);
 
-angular.module('partialsApplication').controller('NHopsDownloadController', ['nHDFSEndpoint', 'nKafkaEndpoint', 'nRestCalls', 
-    function (nHDFSEndpoint, nKafkaEndpoint, nRestCalls) {
+angular.module('partialsApplication').controller('NHopsDownloadController', ['nHDFSResource', 'nKafkaResource', 'nRestCalls', 
+    function (nHDFSResource, nKafkaResource, nRestCalls) {
         var self = this;
-        self.hdfsEndpoint = nHDFSEndpoint;
-        self.kafkaEndpoint = nKafkaEndpoint;
+        self.hdfsResource = nHDFSResource;
+        self.kafkaResource = nKafkaResource;
         self.torrentId = "1";
         self.partnerIp = "193.10.67.178";
         self.partnerPort = "30000";
@@ -275,9 +208,9 @@ angular.module('partialsApplication').controller('NHopsDownloadController', ['nH
         self.downloading = false;
 
         self.download = function () {
-            var hdfsEndpointJSON = nHDFSEndpoint.getJSON();
-            var kafkaEndpointJSON = nKafkaEndpoint.getJSON();
-            var reqJSON = {"hdfsResource": hdfsEndpointJSON, "kafkaResource": kafkaEndpointJSON,
+            var hdfsResourceJSON = nHDFSResource.getJSON();
+            var kafkaResourceJSON = nKafkaResource.getJSON();
+            var reqJSON = {"hdfsResource": hdfsResourceJSON, "kafkaResource": kafkaResourceJSON,
             "torrentId": {"val": self.torrentId}, 
             "partners": [{"ip": self.partnerIp, "port": self.partnerPort, "id": self.partnerId}]};
             nRestCalls.hopsDownload(reqJSON).then(function (result) {
