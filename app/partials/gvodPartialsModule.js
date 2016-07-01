@@ -116,7 +116,8 @@ angular.module('partialsApplication').factory('nKafkaEndpoint', [function () {
     var kafkaEndpoint = {
         brokerEndpoint : "brokerEndpoint",
         restEndpoint : "restEndpoint",
-        domain : "domain"
+        domain : "domain",
+        sessionId : "sessionId"
     };
     return kafkaEndpoint;
 }]);
@@ -124,7 +125,6 @@ angular.module('partialsApplication').factory('nKafkaEndpoint', [function () {
 angular.module('partialsApplication').factory('nKafkaResource', ['nKafkaEndpoint', function (nKafkaEndpoint) {
     var kafkaResource = {
         endpoint : nKafkaEndpoint,
-        sessionId : "sessionId",
         projectId : "projectId",
         topicName : "topicName",
         schemaName : "schemaName",
@@ -132,8 +132,8 @@ angular.module('partialsApplication').factory('nKafkaResource', ['nKafkaEndpoint
         trustStore : "trustStore",
         getJSON : function() {
             return {"brokerEndpoint": endpoint.brokerEndpoint, "restEndpoint": endpoint.restEndpoint, "domain": endpoint.domain, 
-            "sessionId": sessionId, "projectId": projectId, "topicName": topicName, "schemaName": schemaName, "keyStore": keyStore, 
-            "trustStore": trustStore};
+            "sessionId": endpoint.sessionId, 
+            "projectId": projectId, "topicName": topicName, "schemaName": schemaName, "keyStore": keyStore, "trustStore": trustStore};
         }
     };
     return kafkaResource;
