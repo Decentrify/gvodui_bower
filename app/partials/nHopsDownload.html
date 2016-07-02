@@ -32,42 +32,45 @@
         </div>
 
         <div class="form-group">
-            <label >Kafka Broker</label>
-            <input type="text" class="form-control" id="inputKafkaBroker" placeholder="Kafka Broker" ng-model="ctrl.kafkaResource.endpoint.brokerEndpoint">
+            <input ng-model="ctrl.selectKafka" type=checkbox>Kafka
+            
+            <div class="form-group" ng-show="ctrl.selectKafka">
+                <label >Kafka Broker</label>
+                <input type="text" class="form-control" id="inputKafkaBroker" placeholder="Kafka Broker" ng-model="ctrl.kafkaResource.endpoint.brokerEndpoint">
+            </div>
+            <div class="form-group" ng-show="ctrl.selectKafka">
+                <label >Kafka Rest</label>
+                <input type="text" class="form-control" id="inputKafkaRest" placeholder="Kafka Rest" ng-model="ctrl.kafkaResource.endpoint.restEndpoint">
+            </div>
+            <div class="form-group" ng-show="ctrl.selectKafka">
+                <label >Kafka Domain</label>
+                <input type="text" class="form-control" id="inputKafkaDomain" placeholder="Kafka Domain" ng-model="ctrl.kafkaResource.endpoint.domain">
+            </div>
+            <div class="form-group" ng-show="ctrl.selectKafka">
+                <label >Kafka Session</label>
+                <input type="text" class="form-control" id="inputKafkaSession" placeholder="Kafka Session" ng-model="ctrl.kafkaResource.endpoint.sessionId">
+            </div>
+            <div class="form-group" ng-show="ctrl.selectKafka">
+                <label >Kafka Project</label>
+                <input type="text" class="form-control" id="inputKafkaProject" placeholder="Kafka Project" ng-model="ctrl.kafkaResource.projectId">
+            </div>
+            <div class="form-group" ng-show="ctrl.selectKafka">
+                <label >Kafka Topic</label>
+                <input type="text" class="form-control" id="inputKafkaTopic" placeholder="Kafka Topic" ng-model="ctrl.kafkaResource.topicName">
+            </div>
+            <div class="form-group" ng-show="ctrl.selectKafka">
+                <label >Kafka Schema</label>
+                <input type="text" class="form-control" id="inputKafkaSchema" placeholder="Kafka Schema" ng-model="ctrl.kafkaResource.schemaName">
+            </div>
+            <div class="form-group" ng-show="ctrl.selectKafka">
+                <label >Kafka KeyStore</label>
+                <input type="text" class="form-control" id="inputKafkaKeyStore" placeholder="Kafka KeyStore" ng-model="ctrl.kafkaResource.keyStore">
+            </div>
+            <div class="form-group" ng-show="ctrl.selectKafka">
+                <label >Kafka TrustStore</label>
+                <input type="text" class="form-control" id="inputKafkaTrustStore" placeholder="Kafka TrustStore" ng-model="ctrl.kafkaResource.trustStore">
+            </div>
         </div>
-        <div class="form-group">
-            <label >Kafka Rest</label>
-            <input type="text" class="form-control" id="inputKafkaRest" placeholder="Kafka Rest" ng-model="ctrl.kafkaResource.endpoint.restEndpoint">
-        </div>
-        <div class="form-group">
-            <label >Kafka Domain</label>
-            <input type="text" class="form-control" id="inputKafkaDomain" placeholder="Kafka Domain" ng-model="ctrl.kafkaResource.endpoint.domain">
-        </div>
-        <div class="form-group">
-            <label >Kafka Session</label>
-            <input type="text" class="form-control" id="inputKafkaSession" placeholder="Kafka Session" ng-model="ctrl.kafkaResource.endpoint.sessionId">
-        </div>
-        <div class="form-group">
-            <label >Kafka Project</label>
-            <input type="text" class="form-control" id="inputKafkaProject" placeholder="Kafka Project" ng-model="ctrl.kafkaResource.projectId">
-        </div>
-        <div class="form-group">
-            <label >Kafka Topic</label>
-            <input type="text" class="form-control" id="inputKafkaTopic" placeholder="Kafka Topic" ng-model="ctrl.kafkaResource.topicName">
-        </div>
-        <div class="form-group">
-            <label >Kafka Schema</label>
-            <input type="text" class="form-control" id="inputKafkaSchema" placeholder="Kafka Schema" ng-model="ctrl.kafkaResource.schemaName">
-        </div>
-        <div class="form-group">
-            <label >Kafka KeyStore</label>
-            <input type="text" class="form-control" id="inputKafkaKeyStore" placeholder="Kafka KeyStore" ng-model="ctrl.kafkaResource.keyStore">
-        </div>
-        <div class="form-group">
-            <label >Kafka TrustStore</label>
-            <input type="text" class="form-control" id="inputKafkaTrustStore" placeholder="Kafka TrustStore" ng-model="ctrl.kafkaResource.trustStore">
-        </div>
-
 
         <div class="form-group">
             <label >Identifier</label>
