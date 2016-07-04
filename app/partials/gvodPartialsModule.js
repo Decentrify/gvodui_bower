@@ -109,23 +109,52 @@ angular.module('partialsApplication').factory('nRestServerState', [function () {
         };
         return state;
 }]);
-angular.module('partialsApplication').factory('nHDFSEndpoint', [function () {
+angular.module('partialsApplication').factory('nHDFSBasicEndpoint', [function () {
     var hdfsEndpoint = {
         ip : "cloud1.sics.se",
         port : "26801",
-        user : "glassfish"
+        user : "glassfish",
+        getPartialJSON : function() {
+            return "\"hopsIp\": hdfsResource.endpoint.hopsIp," 
+                + "\"hopsPort\": hdfsResource.endpoint.hopsPort," 
+                + "\"user\": hdfsResource.endpoint.user";
+        }
+    };
+    return hdfsEndpoint;
+}]);
+angular.module('partialsApplication').factory('nHDFSXMLEndpoint', [function () {
+    var hdfsEndpoint = {
+        hdfsXMLPath: "path",
+        user : "glassfish",
+        getPartialJSON : function() {
+            return "\"hdfsXMLPath\": hdfsEndpoint.endpoint.hdfsXMLPath,"
+                + "\"user\": hdfsResource.endpoint.user";
+        }
     };
     return hdfsEndpoint;
 }]);
 
-angular.module('partialsApplication').factory('nHDFSResource', ['nHDFSEndpoint', function (nHDFSEndpoint) {
+angular.module('partialsApplication').factory('nHDFSBasicResource', ['nHDFSBasicEndpoint', function (nHDFSBasicEndpoint) {
+    var hdfsResource = {
+        endpoint : nHDFSBasicEndpoint,
+        dir : "/experiment/upload",
+        file : "file",
+        getJSON : function() {
+            var partialJSON = nHDFSBasicEndpoint.getPartialJSON();
+            return {partialJSON, "dirPath": hdfsResource.dir, "fileName": hdfsResource.file};
+        }
+    };
+    return hdfsResource;
+}]);
+
+angular.module('partialsApplication').factory('nHDFSXMLResource', ['nHDFSXMLEndpoint', function (nHDFSXMLEndpoint) {
     var hdfsResource = {
         endpoint : nHDFSEndpoint,
         dir : "/experiment/upload",
         file : "file",
         getJSON : function() {
-            return {"hopsIp": hdfsResource.endpoint.hopsIp, "hopsPort": hdfsResource.endpoint.hopsPort, "user": hdfsResource.endpoint.user, 
-            "dirPath": hdfsResource.dir, "fileName": hdfsResource.file};
+            var partialJSON = nHDFSBasicEndpoint.getPartialJSON();
+            return {partialJSON, "dirPath": hdfsResource.dir, "fileName": hdfsResource.file};
         }
     };
     return hdfsResource;
@@ -199,15 +228,15 @@ angular.module('partialsApplication').controller('NTorrentStatusController', ['n
         };
     }]);
 
-angular.module('partialsApplication').controller('NHopsUploadController', ['nHDFSResource', 'nRestCalls', 
-    function (nHDFSResource, nRestCalls) {
+angular.module('partialsApplication').controller('NHopsUploadController', ['nHDFSBasicResource', 'nRestCalls', 
+    function (nHDFSBasicResource, nRestCalls) {
         var self = this;
-        self.hdfsResource = nHDFSResource;
+        self.hdfsResource = nHDFSBasicResource;
         self.torrentId = "1";
         self.uploading = false;
 
         self.upload = function () {
-            var hdfsResourceJSON = nHDFSResource.getJSON();
+            var hdfsResourceJSON = self.hdfsResource.getJSON();
             var reqJSON = {"resource": hdfsResourceJSON, "torrentId": {"val": self.torrentId}};
             nRestCalls.hopsBasicUpload(reqJSON).then(function (result) {
                 self.result = result;
@@ -216,10 +245,10 @@ angular.module('partialsApplication').controller('NHopsUploadController', ['nHDF
         };
     }]);
 
-angular.module('partialsApplication').controller('NHopsDownloadController', ['$scope', 'nHDFSResource', 'nKafkaResource', 'nRestCalls', 
-    function ($scope, nHDFSResource, nKafkaResource, nRestCalls) {
+angular.module('partialsApplication').controller('NHopsDownloadController', ['$scope', 'nHDFSBasicResource', 'nKafkaResource', 'nRestCalls', 
+    function ($scope, nHDFSBasicResource, nKafkaResource, nRestCalls) {
         var self = this;
-        self.hdfsResource = nHDFSResource;
+        self.hdfsResource = nHDFSBasicResource;
         self.selectKafka = false;
         self.kafkaResource = nKafkaResource;
         self.torrentId = "1";
@@ -229,7 +258,7 @@ angular.module('partialsApplication').controller('NHopsDownloadController', ['$s
         self.downloading = false;
 
         self.download = function () {
-            var hdfsResourceJSON = nHDFSResource.getJSON();
+            var hdfsResourceJSON = self.hdfsResource.getJSON();
             var kafkaResourceJSON = null;
             if(self.selectKafka) {
                kafkaResourceJSON = nKafkaResource.getJSON();
