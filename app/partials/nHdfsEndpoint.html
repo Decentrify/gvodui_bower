@@ -1,14 +1,6 @@
-<div class="jumbotron" ng-controller="NHdfsEndpointGetController">
+<div class="form-group" ng-controller="NHdfsEndpointController">
     <form>
-        <div>
-            <div class="row">
-                <div class="col-md-4 text-center"></div>
-                <div class="col-md-4 text-center">
-                    <h2>Hdfs Endpoint</h2>
-                </div>
-                <div class="col-md-4 text-center"></div>
-            </div>
-        </div>
+        <label>Hdfs Endpoint</label>
         <div class="form-group" ng-show="endpoint.type === typeValues.basic">
             <label>Ip</label>
             <input type="text" ng-readonly="true" class="form-control" id="endpointIp" placeholder="endpointIp" ng-model="endpoint.basicVal.ip">

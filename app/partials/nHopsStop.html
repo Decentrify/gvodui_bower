@@ -1,35 +1,14 @@
-<div class="jumbotron" ng-controller="NHopsStopController as hopsCtrl">
+<div class="jumbotron" ng-controller="NHopsStopController">
 
     <form>
-        <div>
-            <div class="row">
-                <div class="col-md-4 text-center"></div>
-                <div class="col-md-4 text-center">
-                    <h2>HOPS Stop</h2>
-                </div>
-                <div class="col-md-4 text-center"></div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label >Filename</label>
-            <input type="text" class="form-control" id="inputFilename" placeholder="Filename" ng-model="hopsCtrl.fileName">
-        </div>
-        <div class="form-group">
-            <label >Identifier</label>
-            <input type="text" class="form-control" id="inputTorrentId" placeholder="TorrentId" ng-model="hopsCtrl.torrentId">
-        </div>
-        <div class="form-group" style="padding-left:0;">
-            <div style="padding-left: 0;">
-                <button class="btn btn-default" ng-click="hopsCtrl.stop()">
-                    <label>Stop</label>
-                    <i class="glyphicon glyphicon-download"></i>
-                </button>
-                
-                <div class="form-group" ng-if="hopsCtrl.report" style="margin-top:5px; display: inline-block;">
-                    <label> Stop {{hopsCtrl.result.config.data}} with status <b style="color:green;">{{hopsCtrl.result.statusText}}</b> </label>
-                </div>
-            </div>
-        </div>
-
+        <label>HOPS Stop</label>
+        <label >Filename</label>
+        <input type="text" class="form-control" id="inputFilename" placeholder="Filename" ng-model="hopsCtrl.fileName">
+        <label >Identifier</label>
+        <input type="text" class="form-control" id="inputTorrentId" placeholder="TorrentId" ng-model="hopsCtrl.torrentId">
+        <button class="btn btn-default" ng-click="hopsCtrl.stop()">
+            <label>Stop</label>
+            <i class="glyphicon glyphicon-download"></i>
+        </button>
     </form>
 </div>

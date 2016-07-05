@@ -1,107 +1,26 @@
-<div class="jumbotron" ng-controller="NHopsDownloadController as ctrl">
+<div class="jumbotron" ng-controller="NHopsDownloadController">
 
     <form>
-        <div>
-            <div class="row">
-                <div class="col-md-4 text-center"></div>
-                <div class="col-md-4 text-center">
-                    <h2>HOPS Download</h2>
-                </div>
-                <div class="col-md-4 text-center"></div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label >Hops Ip</label>
-            <input type="text" class="form-control" id="inputHopsIp" placeholder="Hops IP" ng-model="ctrl.hdfsResource.endpoint.ip">
-        </div>
-        <div class="form-group">
-            <label >Hops Port</label>
-            <input type="text" class="form-control" id="inputHopsPort" placeholder="Hops Port" ng-model="ctrl.hdfsResource.endpoint.port">
-        </div>
-        <div class="form-group">
-            <label >User</label>
-            <input type="text" class="form-control" id="inputUser" placeholder="User" ng-model="ctrl.hdfsResource.endpoint.user">
-        </div>
-        <div class="form-group">
-            <label >Directory Path</label>
-            <input type="text" class="form-control" id="inputDirPath" placeholder="DirPath" ng-model="ctrl.hdfsResource.dir">
-        </div>
-        <div class="form-group">
-            <label >Filename</label>
-            <input type="text" class="form-control" id="inputFilename" placeholder="Filename" ng-model="ctrl.hdfsResource.file">
-        </div>
+        <label>HOPS Download</label>
+        <div ng-include="'partials/nHdfsResource.html'"></div>
 
-        <div class="form-group">
-            <input ng-model="ctrl.selectKafka" type=checkbox>Kafka
-            
-            <div class="form-group" ng-show="ctrl.selectKafka">
-                <label >Kafka Broker</label>
-                <input type="text" class="form-control" id="inputKafkaBroker" placeholder="Kafka Broker" ng-model="ctrl.kafkaResource.endpoint.brokerEndpoint">
-            </div>
-            <div class="form-group" ng-show="ctrl.selectKafka">
-                <label >Kafka Rest</label>
-                <input type="text" class="form-control" id="inputKafkaRest" placeholder="Kafka Rest" ng-model="ctrl.kafkaResource.endpoint.restEndpoint">
-            </div>
-            <div class="form-group" ng-show="ctrl.selectKafka">
-                <label >Kafka Domain</label>
-                <input type="text" class="form-control" id="inputKafkaDomain" placeholder="Kafka Domain" ng-model="ctrl.kafkaResource.endpoint.domain">
-            </div>
-            <div class="form-group" ng-show="ctrl.selectKafka">
-                <label >Kafka Session</label>
-                <input type="text" class="form-control" id="inputKafkaSession" placeholder="Kafka Session" ng-model="ctrl.kafkaResource.endpoint.sessionId">
-            </div>
-            <div class="form-group" ng-show="ctrl.selectKafka">
-                <label >Kafka Project</label>
-                <input type="text" class="form-control" id="inputKafkaProject" placeholder="Kafka Project" ng-model="ctrl.kafkaResource.projectId">
-            </div>
-            <div class="form-group" ng-show="ctrl.selectKafka">
-                <label >Kafka Topic</label>
-                <input type="text" class="form-control" id="inputKafkaTopic" placeholder="Kafka Topic" ng-model="ctrl.kafkaResource.topicName">
-            </div>
-            <div class="form-group" ng-show="ctrl.selectKafka">
-                <label >Kafka Schema</label>
-                <input type="text" class="form-control" id="inputKafkaSchema" placeholder="Kafka Schema" ng-model="ctrl.kafkaResource.schemaName">
-            </div>
-            <div class="form-group" ng-show="ctrl.selectKafka">
-                <label >Kafka KeyStore</label>
-                <input type="text" class="form-control" id="inputKafkaKeyStore" placeholder="Kafka KeyStore" ng-model="ctrl.kafkaResource.keyStore">
-            </div>
-            <div class="form-group" ng-show="ctrl.selectKafka">
-                <label >Kafka TrustStore</label>
-                <input type="text" class="form-control" id="inputKafkaTrustStore" placeholder="Kafka TrustStore" ng-model="ctrl.kafkaResource.trustStore">
-            </div>
-        </div>
-
+        <input ng-model="selectKafka" type=checkbox>Kafka
+        <div ng-show="selectKafka" ng-include="'partials/nKafkaResource.html'"></div>
+        
         <div class="form-group">
             <label >Identifier</label>
-            <input type="text" class="form-control" id="inputTorrentId" placeholder="TorrentId" ng-model="ctrl.torrentId">
-        </div>
-
-        <div class="form-group">
+            <input type="text" class="form-control" id="inputTorrentId" placeholder="TorrentId" ng-model="torrentId">
             <label >Partner Ip</label>
-            <input type="text" class="form-control" id="inputPartnerIp" placeholder="PartnerIp" ng-model="ctrl.partnerIp">
-        </div>
-        <div class="form-group">
+            <input type="text" class="form-control" id="inputPartnerIp" placeholder="PartnerIp" ng-model="partnerIp">
             <label >Partner Port</label>
-            <input type="text" class="form-control" id="inputPartnerPort" placeholder="PartnerPort" ng-model="ctrl.partnerPort">
-        </div>
-        <div class="form-group">
+            <input type="text" class="form-control" id="inputPartnerPort" placeholder="PartnerPort" ng-model="partnerPort">
             <label >Partner Id</label>
-            <input type="text" class="form-control" id="inputPartnerId" placeholder="PartnerId" ng-model="ctrl.partnerId">
+            <input type="text" class="form-control" id="inputPartnerId" placeholder="PartnerId" ng-model="partnerId">
         </div>
 
-        <div class="form-group" style="padding-left:0;">
-            <div style="padding-left: 0;">
-                <button class="btn btn-default" ng-click="ctrl.download()">
-                    <label>Download</label>
-                    <i class="glyphicon glyphicon-download"></i>
-                </button>
-                
-                <div class="form-group" ng-if="ctrl.downloading" style="margin-top:5px; display: inline-block;">
-                    <label> Downloading {{ctrl.result.config.data}} with status <b style="color:green;">{{ctrl.result.statusText}}</b> </label>
-                </div>
-            </div>
-        </div>
-
+        <button class="btn btn-default">
+            <label>Download</label>
+            <i class="glyphicon glyphicon-download"></i>
+        </button>
     </form>
 </div>

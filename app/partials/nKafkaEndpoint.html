@@ -1,0 +1,15 @@
+<div class="form-group" ng-controller="NKafkaEndpointController">
+  <form>
+    <label>KafkaEndpoint</label>
+    <div class="form-group">
+        <label >Kafka Broker</label>
+        <input type="text" class="form-control" id="inputKafkaBroker" placeholder="Kafka Broker" ng-model="endpoint.brokerEndpoint">
+        <label >Kafka Rest</label>
+        <input type="text" class="form-control" id="inputKafkaRest" placeholder="Kafka Rest" ng-model="endpoint.restEndpoint">
+        <label >Kafka Domain</label>
+        <input type="text" class="form-control" id="inputKafkaDomain" placeholder="Kafka Domain" ng-model="endpoint.domain">
+        <label >Kafka Session</label>
+        <input type="text" class="form-control" id="inputKafkaSession" placeholder="Kafka Session" ng-model="endpoint.sessionId">
+    </div>
+  </form>
+</div>

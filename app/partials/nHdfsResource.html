@@ -1,0 +1,12 @@
+<div class="form-group" ng-controller="NHdfsResourceController">
+  <form>
+    <label>HdfsResource</label>
+    <div class="form-group" ng-include="'partials/nHdfsEndpoint.html'"></div>
+    <div class="form-group">
+      <label >Directory Path</label>
+      <input type="text" class="form-control" id="inputDirPath" placeholder="DirPath" ng-model="resource.dir">
+      <label >Filename</label>
+      <input type="text" class="form-control" id="inputFilename" placeholder="Filename" ng-model="resource.file">
+    </div>
+  </form>
+</div>
