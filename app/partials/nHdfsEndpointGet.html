@@ -1,0 +1,27 @@
+<div class="jumbotron" ng-controller="NHdfsEndpointGetController">
+    <form>
+        <div>
+            <div class="row">
+                <div class="col-md-4 text-center"></div>
+                <div class="col-md-4 text-center">
+                    <h2>Hdfs Endpoint</h2>
+                </div>
+                <div class="col-md-4 text-center"></div>
+            </div>
+        </div>
+        <div class="form-group" ng-show="endpoint.type === typeValues.basic">
+            <label>Ip</label>
+            <input type="text" ng-readonly="true" class="form-control" id="endpointIp" placeholder="endpointIp" ng-model="endpoint.basicVal.ip">
+            <label>Port</label>
+            <input type="text" ng-readonly="true" class="form-control" id="endpointPort" placeholder="endpointPort" ng-model="endpoint.basicVal.port">
+            <label>User</label>
+            <input type="text" ng-readonly="true" class="form-control" id="endpointUser" placeholder="endpointUser" ng-model="endpoint.basicVal.user">
+        </div>
+        <div class="form-group" ng-show="endpoint.type === typeValues.xml">
+            <label>XmlPath</label>
+            <input type="text" ng-readonly="true" class="form-control" id="endpointXml" placeholder="endpointXml" ng-model="endpoint.xmlVal.xmlPath">
+            <label>User</label>
+            <input type="text" ng-readonly="true" class="form-control" id="endpointUser" placeholder="endpointUser" ng-model="endpoint.xmlVal.user">
+        </div>
+    </form>
+</div>

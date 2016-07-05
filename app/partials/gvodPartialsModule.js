@@ -6,7 +6,8 @@
 
 angular.module('partialsApplication', []);
 
-angular.module('partialsApplication').factory('nRestCalls', ['nRestServerState','$http', function (nRestServerState, $http) {
+angular.module('partialsApplication').factory('nRestCalls', ['$http', 'nRestServerState', 'nHdfsEndpoint', 'nHdfsEndpointTypes',
+    function ($http, nRestServerState, nHdfsEndpoint, nHdfsEndpointTypes) {
     var service = {
         vodEndpoint: function () {
             return $http({
@@ -27,32 +28,30 @@ angular.module('partialsApplication').factory('nRestCalls', ['nRestServerState',
                 data: json
             });
         },
-        hopsUpload: function(json, path) {
+        hopsUpload: function(json) {
+            var path;
+            switch(nHdfsEndpoint.type) {
+                case nHdfsEndpointTypes.basic : path = '/torrent/hops/upload/basic'; break;
+                case nHdfsEndpointTypes.xml : path = '/torrent/hops/upload/xml'; break
+            }
             return $http({
                 method: 'PUT',
                 url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + path,
                 data: json
             });
         },
-        hopsBasicUpload: function (json) {
-            return service.hopsUpload(json, '/torrent/hops/upload/basic')
-        },
-        hopsXMLUpload: function (json) {
-            return service.hopsUpload(json, '/torrent/hops/upload/xml');
-        },
-        hopsDownload: function (json, path) {
+        hopsDownload: function (json) {
+            var path;
+            switch(nHdfsEndpoint.type) {
+                case nHdfsEndpointTypes.basic : path = '/torrent/hops/download/basic'; break;
+                case nHdfsEndpointTypes.xml : path = '/torrent/hops/download/xml'; break
+            }
             return $http({
                 method: 'PUT',
                 url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + path,
                 data: json
             });
         }, 
-        hopsBasicDownload: function(json) {
-            return hopsDownload(json, '/torrent/hops/download/basic');
-        },
-        hopsXMLDownload: function(json) {
-            return hopsDownload(json, '/torrent/hops/download/xml');
-        },
         hopsStop: function (json) {
             return $http({
                 method: 'PUT',
@@ -90,6 +89,7 @@ angular.module('partialsApplication').factory('nRestCalls', ['nRestServerState',
     };
     return service;
 }]);
+
 angular.module('partialsApplication').factory('nRestServerState', [function () {
      var state = {
             url :"http://localhost",
@@ -109,55 +109,76 @@ angular.module('partialsApplication').factory('nRestServerState', [function () {
         };
         return state;
 }]);
-angular.module('partialsApplication').factory('nHDFSBasicEndpoint', [function () {
+angular.module('partialsApplication').factory('nHdfsEndpointTypes', [function () {
+    var types = {
+        basic : "basic",
+        xml : "xml"
+    };
+    return types;
+}]); 
+angular.module('partialsApplication').factory('nHdfsBasicEndpoint', [function () {
     var hdfsEndpoint = {
         ip : "cloud1.sics.se",
         port : "26801",
         user : "glassfish",
         getPartialJSON : function() {
-            return "\"hopsIp\": hdfsResource.endpoint.hopsIp," 
-                + "\"hopsPort\": hdfsResource.endpoint.hopsPort," 
-                + "\"user\": hdfsResource.endpoint.user";
+            return "\"hopsIp\": hdfsResource.hopsIp," 
+                + "\"hopsPort\": hdfsResource.hopsPort," 
+                + "\"user\": hdfsResource.user";
         }
     };
     return hdfsEndpoint;
 }]);
-angular.module('partialsApplication').factory('nHDFSXMLEndpoint', [function () {
+angular.module('partialsApplication').factory('nHdfsXmlEndpoint', [function () {
     var hdfsEndpoint = {
-        hdfsXMLPath: "path",
+        xmlPath : "path",
         user : "glassfish",
         getPartialJSON : function() {
-            return "\"hdfsXMLPath\": hdfsEndpoint.endpoint.hdfsXMLPath,"
-                + "\"user\": hdfsResource.endpoint.user";
+            return "\"hdfsXMLPath\": hdfsEndpoint.xmlPath,"
+                + "\"user\": hdfsResource.user";
+        }
+    };
+    return hdfsEndpoint;
+}]);
+angular.module('partialsApplication').factory('nHdfsEndpoint', ['nHdfsEndpointTypes', 'nHdfsBasicEndpoint', 'nHdfsXmlEndpoint', 
+    function (nHdfsEndpointTypes, nHdfsBasicEndpoint, nHdfsXmlEndpoint) {
+    var hdfsEndpoint = {
+        type : nHdfsEndpointTypes.basic,
+        basicVal : nHdfsBasicEndpoint,
+        xmlVal : nHdfsXmlEndpoint,
+        getPartialJSON : function() {
+            switch(type) {
+                case nHdfsEndpointTypes.basic : return basicVal.getPartialJSON(); break;
+                case nHdfsEndpointTypes.xml : return xmlVal.getPartialJSON(); break;
+            }
         }
     };
     return hdfsEndpoint;
 }]);
 
-angular.module('partialsApplication').factory('nHDFSBasicResource', ['nHDFSBasicEndpoint', function (nHDFSBasicEndpoint) {
+angular.module('partialsApplication').factory('nHdfsResource', ['nHdfsEndpoint', function (nHdfsEndpoint) { 
     var hdfsResource = {
-        endpoint : nHDFSBasicEndpoint,
+        endpoint : nHdfsEndpoint,
         dir : "/experiment/upload",
         file : "file",
         getJSON : function() {
-            var partialJSON = nHDFSBasicEndpoint.getPartialJSON();
+            var partialJSON = hdfsResource.endpoint.getPartialJSON();
             return {partialJSON, "dirPath": hdfsResource.dir, "fileName": hdfsResource.file};
         }
     };
     return hdfsResource;
 }]);
 
-angular.module('partialsApplication').factory('nHDFSXMLResource', ['nHDFSXMLEndpoint', function (nHDFSXMLEndpoint) {
-    var hdfsResource = {
-        endpoint : nHDFSEndpoint,
-        dir : "/experiment/upload",
-        file : "file",
-        getJSON : function() {
-            var partialJSON = nHDFSBasicEndpoint.getPartialJSON();
-            return {partialJSON, "dirPath": hdfsResource.dir, "fileName": hdfsResource.file};
-        }
-    };
-    return hdfsResource;
+angular.module('partialsApplication').controller('NHdfsEndpointGetController', ['$scope', 'nHdfsEndpointTypes', 'nHdfsEndpoint', 
+    function ($scope, nHdfsEndpointTypes, nHdfsEndpoint) {
+        $scope.endpoint = nHdfsEndpoint;
+        $scope.typeValues = nHdfsEndpointTypes;
+}]);
+
+angular.module('partialsApplication').controller('NHdfsEndpointSetController', ['$scope', 'nHdfsEndpointTypes', 'nHdfsEndpoint', 
+    function ($scope, nHdfsEndpointTypes, nHdfsEndpoint) {
+        $scope.endpoint = nHdfsEndpoint;
+        $scope.typeValues = nHdfsEndpointTypes;
 }]);
 
 angular.module('partialsApplication').factory('nKafkaEndpoint', [function () {
@@ -228,27 +249,27 @@ angular.module('partialsApplication').controller('NTorrentStatusController', ['n
         };
     }]);
 
-angular.module('partialsApplication').controller('NHopsUploadController', ['nHDFSBasicResource', 'nRestCalls', 
-    function (nHDFSBasicResource, nRestCalls) {
+angular.module('partialsApplication').controller('NHopsUploadController', ['nHdfsResource', 'nRestCalls', 
+    function (nHdfsResource, nRestCalls) {
         var self = this;
-        self.hdfsResource = nHDFSBasicResource;
+        self.hdfsResource = nHdfsResource;
         self.torrentId = "1";
         self.uploading = false;
 
         self.upload = function () {
             var hdfsResourceJSON = self.hdfsResource.getJSON();
             var reqJSON = {"resource": hdfsResourceJSON, "torrentId": {"val": self.torrentId}};
-            nRestCalls.hopsBasicUpload(reqJSON).then(function (result) {
+            nRestCalls.hopsUpload(reqJSON).then(function (result) {
                 self.result = result;
                 self.uploading = true;
             })
         };
     }]);
 
-angular.module('partialsApplication').controller('NHopsDownloadController', ['$scope', 'nHDFSBasicResource', 'nKafkaResource', 'nRestCalls', 
-    function ($scope, nHDFSBasicResource, nKafkaResource, nRestCalls) {
+angular.module('partialsApplication').controller('NHopsDownloadController', ['nHdfsResource', 'nKafkaResource', 'nRestCalls', 
+    function (nHdfsResource, nKafkaResource, nRestCalls) {
         var self = this;
-        self.hdfsResource = nHDFSBasicResource;
+        self.hdfsResource = nHdfsResource;
         self.selectKafka = false;
         self.kafkaResource = nKafkaResource;
         self.torrentId = "1";
@@ -266,7 +287,7 @@ angular.module('partialsApplication').controller('NHopsDownloadController', ['$s
             var reqJSON = {"hdfsResource": hdfsResourceJSON, "kafkaResource": kafkaResourceJSON,
             "torrentId": {"val": self.torrentId}, 
             "partners": [{"ip": self.partnerIp, "port": self.partnerPort, "id": self.partnerId}]};
-            nRestCalls.hopsBasicDownload(reqJSON).then(function (result) {
+            nRestCalls.hopsDownload(reqJSON).then(function (result) {
                 self.result = result;
                 self.downloading = true;
             })

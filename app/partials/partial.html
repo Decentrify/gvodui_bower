@@ -1,12 +1,54 @@
-<div class="container">
-        <div ng-include="'partials/nRestServerSet.html'"></div>
-        <div ng-include="'partials/nContents.html'"></div>
-        <div ng-include="'partials/nTorrentStatus.html'"></div>
-        <div ng-include="'partials/nHopsUpload.html'"></div>
-        <div ng-include="'partials/nHopsDownload.html'"></div>
-        <div ng-include="'partials/nHopsStop.html'"></div>
-        <div ng-include="'partials/nHopsDelete.html'"></div>
-        <div ng-include="'partials/nHopsCreate.html'"></div>
-        <div ng-include="'partials/nVoDEndpoint.html'"></div>
-        <div ng-include="'partials/nHopsConnection.html'"></div>
+<div class="jumbotron">
+  <div>
+    <label>
+      <input type="checkbox" ng-model="nRestServerSet"> nRestServerSet
+    </label></br>
+    <label>
+      <input type="checkbox" ng-model="nHdfsEndpointGet"> nHdfsEndpointGet
+    </label></br>
+    <label>
+      <input type="checkbox" ng-model="nHdfsEndpointSet"> nHdfsEndpointSet
+    </label></br>
+    <label>
+      <input type="checkbox" ng-model="nContents"> nContents
+    </label></br>
+    <label>
+      <input type="checkbox" ng-model="nTorrentStatus"> nTorrentStatus
+    </label></br>
+    <label>
+      <input type="checkbox" ng-model="nHopsUpload"> nHopsUpload
+    </label></br>
+    <label>
+      <input type="checkbox" ng-model="nHopsDownload"> nHopsDownload
+    </label></br>
+    <label>
+      <input type="checkbox" ng-model="nHopsStop"> nHopsStop
+    </label></br>
+    <label>
+      <input type="checkbox" ng-model="nHopsDelete"> nHopsDelete
+    </label></br>
+    <label>
+      <input type="checkbox" ng-model="nHopsCreate"> nHopsCreate
+    </label></br>
+    <label>
+      <input type="checkbox" ng-model="nVoDEndpoint"> nVoDEndpoint
+    </label></br>
+    <label>
+      <input type="checkbox" ng-model="nHopsConnection"> nHopsConnection
+    </label></br>
+  <div>
+  <div>
+    <div ng-show="nRestServerSet" ng-include="'partials/nRestServerSet.html'"></div>
+    <div ng-show="nHdfsEndpointGet" ng-include="'partials/nHdfsEndpointGet.html'"></div>
+    <div ng-show="nHdfsEndpointSet" ng-include="'partials/nHdfsEndpointSet.html'"></div>
+    <div ng-show="nContents" ng-include="'partials/nContents.html'"></div>
+    <div ng-show="nTorrentStatus" ng-include="'partials/nTorrentStatus.html'"></div>
+    <div ng-show="nHopsUpload" ng-include="'partials/nHopsUpload.html'"></div>
+    <div ng-show="nHopsDownload" ng-include="'partials/nHopsDownload.html'"></div>
+    <div ng-show="nHopsStop" ng-include="'partials/nHopsStop.html'"></div>
+    <div ng-show="nHopsDelete" ng-include="'partials/nHopsDelete.html'"></div>
+    <div ng-show="nHopsCreate" ng-include="'partials/nHopsCreate.html'"></div>
+    <div ng-show="nVoDEndpoint" ng-include="'partials/nVoDEndpoint.html'"></div>
+    <div ng-show="nHopsConnection" ng-include="'partials/nHopsConnection.html'"></div>
+  <div>
 </div>
