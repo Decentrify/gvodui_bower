@@ -12,5 +12,9 @@
                 <i class="glyphicon glyphicon-download"></i>
             </button>
         </div>
+        <div class="form-group" ng-show="done">
+        <label>SUCESS</label>
+        <input type="text" class="form-control" id="inputFilesize" placeholder="filesize" ng-model="result.data.filesize" ng-readonly="true">
+        </div>
     </form>
 </div>
