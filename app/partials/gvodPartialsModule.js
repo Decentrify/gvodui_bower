@@ -15,10 +15,12 @@ angular.module('partialsApplication').factory('nRestCalls', ['$http', 'nRestServ
                 url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + '/vod/endpoint'
             });
         },
-        contents: function () {
+        contents: function (json) {
+            console.log("contents " + JSON.stringify(json));
             return $http({
-                method: 'GET',
-                url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + '/library/contents'
+                method: 'PUT',
+                url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + '/library/contents',
+                data: json
             });
         },
         torrentStatus: function (json) {
@@ -229,12 +231,20 @@ angular.module('partialsApplication').factory('nHopsResource', [function () {
     return hopsResource;
 }]);
 
-angular.module('partialsApplication').controller('NContentsController', ['nRestCalls', function (nRestCalls) {
-        var self = this;
-
-        self.getContents = function () {
-            nRestCalls.contents().then(function (result) {
-                self.result = result;
+angular.module('partialsApplication').controller('NContentsController', ['$scope', 'nRestCalls', function ($scope, nRestCalls) {
+        $scope.done = false;
+        $scope.selectProject = false;
+        $scope.projectId = null;
+        $scope.click = function() {
+            if($scope.selectProject == false) {
+                $scope.projectId = null;
+            }
+        }
+        $scope.getContents = function () {
+            var json = {"projectId": $scope.projectId};
+            nRestCalls.contents(json).then(function (result) {
+                $scope.result = result;
+                $scope.done = true;
             });
 
         };
