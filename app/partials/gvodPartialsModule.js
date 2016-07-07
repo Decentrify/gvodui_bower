@@ -224,7 +224,7 @@ angular.module('partialsApplication').factory('nHopsResource', [function () {
     var hopsResource = {
         projectId : "10",
         getJSON : function() {
-            var json = {"projectId": projectId}
+            var json = {"projectId": hopsResource.projectId}
             return json;
         }
     };
