@@ -3,6 +3,7 @@
     <form>
         <label>HOPS Download</label>
         <div ng-include="'partials/nHdfsResource.html'"></div>
+        <div ng-include="'partials/nHopsResource.html'"></div>
 
         <input ng-model="selectKafka" type=checkbox>Kafka
         <div ng-show="selectKafka" ng-include="'partials/nKafkaResource.html'"></div>

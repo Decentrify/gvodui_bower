@@ -218,6 +218,17 @@ angular.module('partialsApplication').factory('nKafkaResource', ['nKafkaEndpoint
     return kafkaResource;
 }]);
 
+angular.module('partialsApplication').factory('nHopsResource', [function () {
+    var hopsResource = {
+        projectId : "10",
+        getJSON : function() {
+            var json = {"projectId": projectId}
+            return json;
+        }
+    };
+    return hopsResource;
+}]);
+
 angular.module('partialsApplication').controller('NContentsController', ['nRestCalls', function (nRestCalls) {
         var self = this;
 
@@ -245,15 +256,15 @@ angular.module('partialsApplication').controller('NTorrentStatusController', ['n
         };
     }]);
 
-angular.module('partialsApplication').controller('NHopsUploadController', ['$scope', 'nHdfsResource', 'nRestCalls',
-    function ($scope, nHdfsResource, nRestCalls) {
-        $scope.hdfsResource = nHdfsResource;
+angular.module('partialsApplication').controller('NHopsUploadController', ['$scope', 'nHdfsResource', 'nHopsResource', 'nRestCalls',
+    function ($scope, nHdfsResource, nHopsResource, nRestCalls) {
         $scope.torrentId = "1";
         $scope.done = false;
 
         $scope.upload = function () {
-            var hdfsResourceJSON = $scope.hdfsResource.getJSON();
-            var reqJSON = {"resource": hdfsResourceJSON, "torrentId": {"val": $scope.torrentId}};
+            var hdfsResourceJSON = nHdfsResource.getJSON();
+            var hopsResourceJSON = nHopsResource.getJSON();
+            var reqJSON = {"hdfsResource": hdfsResourceJSON, "hopsResource": hopsResourceJSON, "torrentId": {"val": $scope.torrentId}};
             nRestCalls.hopsUpload(reqJSON).then(function (result) {
                 $scope.result = result;
                 $scope.done = true;
@@ -261,8 +272,8 @@ angular.module('partialsApplication').controller('NHopsUploadController', ['$sco
         };
     }]);
 
-angular.module('partialsApplication').controller('NHopsDownloadController', ['$scope', 'nHdfsResource', 'nKafkaResource', 'nRestCalls', 
-    function ($scope, nHdfsResource, nKafkaResource, nRestCalls) {
+angular.module('partialsApplication').controller('NHopsDownloadController', ['$scope', 'nHdfsResource', 'nKafkaResource', 
+    'nHopsResource', 'nRestCalls', function ($scope, nHdfsResource, nKafkaResource, nHopsResource, nRestCalls) {
         $scope.selectKafka = false;
         $scope.torrentId = "1";
         $scope.partnerIp = "193.10.67.178";
@@ -276,9 +287,9 @@ angular.module('partialsApplication').controller('NHopsDownloadController', ['$s
             if($scope.selectKafka) {
                kafkaResourceJSON = nKafkaResource.getJSON();
             }
-            var reqJSON = {"hdfsResource": hdfsResourceJSON, "kafkaResource": kafkaResourceJSON,
-            "torrentId": {"val": $scope.torrentId}, 
-            "partners": [{"ip": $scope.partnerIp, "port": $scope.partnerPort, "id": $scope.partnerId}]};
+            var hopsResourceJSON = nHopsResource.getJSON();
+            var reqJSON = {"hdfsResource": hdfsResourceJSON, "kafkaResource": kafkaResourceJSON, "hopsResource": hopsResourceJSON,
+            "torrentId": {"val": $scope.torrentId}, "partners": [{"ip": $scope.partnerIp, "port": $scope.partnerPort, "id": $scope.partnerId}]};
             nRestCalls.hopsDownload(reqJSON).then(function (result) {
                 $scope.result = result;
                 $scope.done = true;
@@ -396,4 +407,8 @@ angular.module('partialsApplication').controller('NKafkaEndpointController', ['$
 angular.module('partialsApplication').controller('NKafkaResourceController', ['$scope', 'nKafkaResource',
     function ($scope, nKafkaResource) {
         $scope.resource = nKafkaResource;
+}]); 
+angular.module('partialsApplication').controller('NHopsResourceController', ['$scope', 'nHopsResource',
+    function ($scope, nHopsResource) {
+        $scope.resource = nHopsResource;
 }]); 
