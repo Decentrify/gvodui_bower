@@ -193,9 +193,9 @@ angular.module('partialsApplication').factory('nHdfsResource', ['nHdfsEndpoint',
 
 angular.module('partialsApplication').factory('nKafkaEndpoint', [function () {
     var kafkaEndpoint = {
-        brokerEndpoint : "brokerEndpoint",
-        restEndpoint : "restEndpoint",
-        domain : "domain",
+        brokerEndpoint : "10.0.2.15:9091",
+        restEndpoint : "http://bbc1.sics.se:14003",
+        domain : "bbc1.sics.se",
         sessionId : "sessionId"
     };
     return kafkaEndpoint;
@@ -204,15 +204,14 @@ angular.module('partialsApplication').factory('nKafkaEndpoint', [function () {
 angular.module('partialsApplication').factory('nKafkaResource', ['nKafkaEndpoint', function (nKafkaEndpoint) {
     var kafkaResource = {
         endpoint : nKafkaEndpoint,
-        projectId : "projectId",
-        topicName : "topicName",
-        schemaName : "schemaName",
-        keyStore : "keyStore",
-        trustStore : "trustStore",
+        projectId : "10",
+        topicName : "testTopic",
+        keyStore : "/var/lib/kagent/keystores/node_server_keystore.jks",
+        trustStore : "/var/lib/kagent/keystores/node_server_truststore.jks",
         getJSON : function() {
             return {"brokerEndpoint": kafkaResource.endpoint.brokerEndpoint, "restEndpoint": kafkaResource.endpoint.restEndpoint, 
             "domain": kafkaResource.endpoint.domain, "sessionId": kafkaResource.endpoint.sessionId, 
-            "projectId": kafkaResource.projectId, "topicName": kafkaResource.topicName, "schemaName": kafkaResource.schemaName, 
+            "projectId": kafkaResource.projectId, "topicName": kafkaResource.topicName, 
             "keyStore": kafkaResource.keyStore, "trustStore": kafkaResource.trustStore};
         }
     };
@@ -334,15 +333,15 @@ angular.module('partialsApplication').controller('NHopsCreateController', ['$sco
 angular.module('partialsApplication').controller('NHopsAvroCreateController', ['$scope', 'nRestCalls', 'nHdfsResource', 'nKafkaResource',
     function ($scope, nRestCalls, nHdfsResource, nKafkaResource) {
         $scope.avroMsgs = "1000";
-        $scope.success = false;
+        $scope.done = false;
 
         $scope.create = function () {
             var hdfsResourceJSON = nHdfsResource.getJSON();
             var kafkaResourceJSON = nKafkaResource.getJSON();
             var JSONObj = {"hdfsResource": hdfsResourceJSON, "kafkaResource": kafkaResourceJSON, "nrMsgs": $scope.avroMsgs};
-            nRestCalls.hdfsCreate(JSONObj).then(function (result) {
+            nRestCalls.hdfsAvroCreate(JSONObj).then(function (result) {
                 $scope.result = result;
-                $scope.success = true;
+                $scope.done = true;
             })
         };
     }]);
