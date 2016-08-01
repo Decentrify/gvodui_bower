@@ -1,11 +1,12 @@
-<div class="jumbotron" ng-controller="NHopsUploadController">
+<div class="jumbotron" ng-controller="NHTUploadController">
     <form>
-        <label>HOPS Upload</label>
-        <div ng-include="'partials/nHdfsResource.html'"></div>
-        <div ng-include="'partials/nHopsResource.html'"></div>
+        <label>Hops Upload</label>
+        <div ng-include="'partials/nHdfsResource.html'" onload="resource = manifestResource"></div>
         <div class="form-group">
             <label >TorrentId</label>
             <input type="text" class="form-control" id="inputTorrentId" placeholder="TorrentId" ng-model="torrentId">
+            <label >TorrentName</label>
+            <input type="text" class="form-control" id="inputTorrentName" placeholder="TorrentName" ng-model="torrentName">
             <button class="btn btn-default" ng-click="upload()">
                 <label>Upload</label>
                 <i class="glyphicon glyphicon-upload"></i>

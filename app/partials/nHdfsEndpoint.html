@@ -1,19 +1,20 @@
-<div class="form-group" ng-controller="NHdfsEndpointController">
+<div class="form-group">
     <form>
         <label>Hdfs Endpoint</label>
-        <div class="form-group" ng-show="endpoint.type === typeValues.basic">
+        <label>{endpoint.json}</label>
+        <div class="form-group" ng-show="endpoint.type === endpoint.types.basic">
             <label>Ip</label>
-            <input type="text" ng-readonly="true" class="form-control" id="endpointIp" placeholder="endpointIp" ng-model="endpoint.basicVal.ip">
+            <input type="text" ng-readonly="endpoint.readOnly" class="form-control" id="endpointIp" placeholder="endpointIp" ng-model="endpoint.basic.ip">
             <label>Port</label>
-            <input type="text" ng-readonly="true" class="form-control" id="endpointPort" placeholder="endpointPort" ng-model="endpoint.basicVal.port">
+            <input type="text" ng-readonly="endpoint.readOnly" class="form-control" id="endpointPort" placeholder="endpointPort" ng-model="endpoint.basic.port">
             <label>User</label>
-            <input type="text" ng-readonly="true" class="form-control" id="endpointUser" placeholder="endpointUser" ng-model="endpoint.basicVal.user">
+            <input type="text" ng-readonly="endpoint.readOnly" class="form-control" id="endpointUser" placeholder="endpointUser" ng-model="endpoint.basic.user">
         </div>
-        <div class="form-group" ng-show="endpoint.type === typeValues.xml">
+        <div class="form-group" ng-show="endpoint.type === endpoint.types.xml">
             <label>XmlPath</label>
-            <input type="text" ng-readonly="true" class="form-control" id="endpointXml" placeholder="endpointXml" ng-model="endpoint.xmlVal.xmlPath">
+            <input type="text" ng-readonly="endpoint.readOnly" class="form-control" id="endpointXml" placeholder="endpointXml" ng-model="endpoint.xml.xmlPath">
             <label>User</label>
-            <input type="text" ng-readonly="true" class="form-control" id="endpointUser" placeholder="endpointUser" ng-model="endpoint.xmlVal.user">
+            <input type="text" ng-readonly="endpoint.readOnly" class="form-control" id="endpointUser" placeholder="endpointUser" ng-model="endpoint.xml.user">
         </div>
     </form>
 </div>

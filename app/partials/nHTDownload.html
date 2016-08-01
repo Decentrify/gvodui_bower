@@ -1,0 +1,49 @@
+<div class="jumbotron" ng-controller="NHTDownloadController">
+
+    <form>
+        <label>HOPS Download</label>
+        </br>
+        <label>
+            <input type="checkbox" ng-model="advance">advanceDownload
+        </label></br>
+        <div ng-show ="advance == false" ng-include="'partials/nHdfsResource.html'" onload="resource = manifestResource"></div>
+        <div ng-show ="advance == false" class="form-group">
+            <label>TorrentId</label>
+            <input type="text" class="form-control" id="inputTorrentId" placeholder="TorrentId" ng-model="torrentId">
+            <label>TorrentName</label>
+            <input type="text" class="form-control" id="inputTorrentName" placeholder="TorrentName" ng-model="torrentName">
+            <label>Partner Ip</label>
+            <input type="text" class="form-control" id="inputPartnerIp" placeholder="PartnerIp" ng-model="partner.ip">
+            <label>Partner Port</label>
+            <input type="text" class="form-control" id="inputPartnerPort" placeholder="PartnerPort" ng-model="partner.port">
+            <label>Partner Id</label>
+            <input type="text" class="form-control" id="inputPartnerId" placeholder="PartnerId" ng-model="partner.id">
+            <button class="btn btn-default" ng-click="startDownload()">
+                <label>Download</label>
+                <i class="glyphicon glyphicon-download"></i>
+            </button>
+        </div>
+
+        <div ng-show="advance" class="form-group">
+            <label>File</label>
+            <input type="text" class="form-control" id="nF" placeholder="nF" ng-model="fileName">
+            <button class="btn btn-default" ng-click="newFile()">
+                <label>NewFile</label>
+            </button></br>
+            <label>Files</label> </br>
+            <div ng-repeat="f in files">
+                <label style="padding-left:5em">{{f.file}}</label>
+                <input type="checkbox" ng-model="f.kafka" ng-click="updateKafka(f, checked)">kafka
+                <input type="checkbox" ng-model="f.expanded">expand
+                <div ng-show="f.expanded" ng-include="'partials/nHdfsResource.html'" onload="parent=f"></div>
+                <div ng-show="showKafka(f)" ng-include="'partials/nKafkaResource.html'" onload="parent=f"></div>
+                </br>
+            </div>
+            <button class="btn btn-default" ng-click="advanceDownload()">
+                <label>Advance</label>
+                <i class="glyphicon glyphicon-download"></i>
+            </button>
+        </div>
+       
+    </form>
+</div>

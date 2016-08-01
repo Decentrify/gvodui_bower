@@ -1,16 +1,11 @@
-<div class="form-group" ng-controller="NKafkaResourceController">
+<div class="form-group">
   <form>
     <label>KafkaResource</label>
-    <div ng-include="'partials/nKafkaEndpoint.html'"></div>
     <div class="form-group">
-      <label >Kafka Project</label>
-      <input type="text" class="form-control" id="inputKafkaProject" placeholder="Kafka Project" ng-model="resource.projectId">
       <label >Kafka Topic</label>
-      <input type="text" class="form-control" id="inputKafkaTopic" placeholder="Kafka Topic" ng-model="resource.topicName">
-      <label >Kafka KeyStore</label>
-      <input type="text" class="form-control" id="inputKafkaKeyStore" placeholder="Kafka KeyStore" ng-model="resource.keyStore">
-      <label >Kafka TrustStore</label>
-      <input type="text" class="form-control" id="inputKafkaTrustStore" placeholder="Kafka TrustStore" ng-model="resource.trustStore">
+      <input ng-readonly="resource.readOnly" type="text" class="form-control" id="inputKafkaTopic" placeholder="Kafka Topic" ng-model="parent.kafkaResource.topicName">
+      <label >Kafka Session</label>
+      <input ng-readonly="resources.readOnly" type="text" class="form-control" id="inputKafkaSession" placeholder="Kafka Session" ng-model="parent.kafkaResource.sessionId">
     </div>
   </form>
 </div>

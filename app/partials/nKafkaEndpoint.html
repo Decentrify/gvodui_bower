@@ -1,15 +1,19 @@
-<div class="form-group" ng-controller="NKafkaEndpointController">
+<div class="form-group">
   <form>
     <label>KafkaEndpoint</label>
     <div class="form-group">
         <label >Kafka Broker</label>
-        <input type="text" class="form-control" id="inputKafkaBroker" placeholder="Kafka Broker" ng-model="endpoint.brokerEndpoint">
+        <input ng-readonly="endpoint.readOnly" type="text" class="form-control" id="inputKafkaBroker" placeholder="Kafka Broker" ng-model="endpoint.brokerEndpoint">
         <label >Kafka Rest</label>
-        <input type="text" class="form-control" id="inputKafkaRest" placeholder="Kafka Rest" ng-model="endpoint.restEndpoint">
+        <input ng-readonly="endpoint.readOnly" type="text" class="form-control" id="inputKafkaRest" placeholder="Kafka Rest" ng-model="endpoint.restEndpoint">
         <label >Kafka Domain</label>
-        <input type="text" class="form-control" id="inputKafkaDomain" placeholder="Kafka Domain" ng-model="endpoint.domain">
-        <label >Kafka Session</label>
-        <input type="text" class="form-control" id="inputKafkaSession" placeholder="Kafka Session" ng-model="endpoint.sessionId">
+        <input ng-readonly="endpoint.readOnly" type="text" class="form-control" id="inputKafkaDomain" placeholder="Kafka Domain" ng-model="endpoint.domain">
+        <label >Kafka Project</label>
+        <input ng-readonly="endpoint.readOnly" type="text" class="form-control" id="inputKafkaProject" placeholder="Kafka Project" ng-model="endpoint.projectId">
+        <label >Kafka KeyStore</label>
+        <input ng-readonly="endpoint.readOnly" type="text" class="form-control" id="inputKafkaKeyStore" placeholder="Kafka KeyStore" ng-model="endpoint.keyStore">
+        <label >Kafka TrustStore</label>
+        <input ng-readonly="endpoint.readOnly" type="text" class="form-control" id="inputKafkaTrustStore" placeholder="Kafka TrustStore" ng-model="endpoint.trustStore">
     </div>
   </form>
 </div>
