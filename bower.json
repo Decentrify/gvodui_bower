@@ -21,7 +21,8 @@
     "bootstrap-sass": "~3.3.5",
     "modernizr": "~2.8.1",
     "angular": "1.5.6",
-    "angular-material": "^1.0.9"
+    "angular-material": "^1.0.9",
+    "angular-nvd3": "^1.0.9"
   },
   "overrides": {
     "bootstrap-sass": {
