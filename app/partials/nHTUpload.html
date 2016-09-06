@@ -1,7 +1,7 @@
 <div class="jumbotron" ng-controller="NHTUploadController">
     <form>
         <label>Hops Upload</label>
-        <div ng-include="'partials/nHdfsResource.html'" onload="resource = manifestResource"></div>
+        <div ng-include="'partials/nHdfsResource.html'" onload="parent.hdfsResource = manifestResource"></div>
         <div class="form-group">
             <label >TorrentId</label>
             <input type="text" class="form-control" id="inputTorrentId" placeholder="TorrentId" ng-model="torrentId">
