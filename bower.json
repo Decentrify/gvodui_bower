@@ -22,7 +22,8 @@
     "modernizr": "~2.8.1",
     "angular": "1.5.6",
     "angular-material": "^1.0.9",
-    "angular-nvd3": "^1.0.9"
+    "angular-nvd3": "^1.0.9",
+    "angular-csv-import": "^0.0.36"
   },
   "overrides": {
     "bootstrap-sass": {
