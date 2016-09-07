@@ -1,0 +1,34 @@
+  <div ng-controller="NGraphsController">
+    <label> Load Content </label>
+    <ng-csv-import 
+      class="import"
+      content="loadContent.content"
+      header="loadContent.header" 
+      header-visible="loadContent.headerVisible" 
+      separator="loadContent.separator"
+      separator-visible="loadContent.separatorVisible"
+      result="loadContent.result"
+      encoding="loadContent.encoding"
+      encoding-visible="loadContent.encodingVisible"
+      callback="loadContent.callback"></ng-csv-import>
+    <label> Transfer Content </label>
+    <ng-csv-import 
+      class="import"
+      content="transferContent.content"
+      header="transferContent.header" 
+      header-visible="transferContent.headerVisible" 
+      separator="transferContent.separator"
+      separator-visible="transferContent.separatorVisible"
+      result="transferContent.result"
+      encoding="transferContent.encoding"
+      encoding-visible="transferContent.encodingVisible"
+      callback="transferContent.callback"></ng-csv-import>
+    <button 
+      class="btn btn-default" 
+      ng-click="plot()">
+      <label>Plot</label>
+    </button>   
+    <nvd3 ng-if="canPlot" options="qdOptions" data="qdData"></nvd3>
+    <nvd3 ng-if="canPlot" options="bufOptions" data="bufData"></nvd3>
+    <nvd3 ng-if="canPlot" options="speedOptions" data="speedData"></nvd3>
+  </div>

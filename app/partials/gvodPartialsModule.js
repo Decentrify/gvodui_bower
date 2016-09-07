@@ -512,7 +512,7 @@ angular.module('partialsApplication').controller('NGraphsController', function($
         var upSpeed =[];
         //$scope.loadContent.result.length
         //parseInt($scope.loadContent.result[i][0])
-        for(var i = 0; i < 100; i++) {
+        for(var i = 0; i < $scope.loadContent.result.length; i++) {
             queueLoad.push({x: i, y: parseInt($scope.loadContent.result[i][0])});
             bufferSize.push({x: i, y: parseInt($scope.loadContent.result[i][1])});
             transferSize.push({x: i, y: parseInt($scope.loadContent.result[i][2])});
