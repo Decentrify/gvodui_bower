@@ -505,23 +505,28 @@ angular.module('partialsApplication').controller('NGraphsController', function($
     }; 
     $scope.canPlot = false;
     $scope.plot = function() {
-        var queueLoad = [];
-        var bufferSize = [];
-        var transferSize = [];
+        var avgQueueLoad = [];
+        var instQueueLoad = [];
+        var avgBufferSize = [];
+        var instBufferSize = [];
         var downSpeed =[];
         var upSpeed =[];
+        var cwnd = [];
         //$scope.loadContent.result.length
         //parseInt($scope.loadContent.result[i][0])
         for(var i = 0; i < $scope.loadContent.result.length; i++) {
-            queueLoad.push({x: i, y: parseInt($scope.loadContent.result[i][0])});
-            bufferSize.push({x: i, y: parseInt($scope.loadContent.result[i][1])});
-            transferSize.push({x: i, y: parseInt($scope.loadContent.result[i][2])});
+            avgQueueLoad.push({x: i, y: parseInt($scope.loadContent.result[i][0])});
+            instQueueLoad.push({x: i, y: parseInt($scope.loadContent.result[i][1])});
+            avgBufferSize.push({x: i, y: parseInt($scope.loadContent.result[i][2])});
+            instBufferSize.push({x: i, y: parseInt($scope.loadContent.result[i][3])});
             downSpeed.push({x: i, y: parseInt($scope.transferContent.result[i][1])/1024});
             upSpeed.push({x: i, y: parseInt($scope.transferContent.result[i][2])/1024});
+            cwnd.push({x: i, y: parseInt($scope.transferContent.result[i][3])/1024});
         }
-        $scope.qdData = [{key: "ql", values:queueLoad}]; 
-        $scope.bufData = [{key: "buffer", values:bufferSize}, {key: "transfer", values:transferSize}]; 
+        $scope.qdData = [{key: "avg", values:avgQueueLoad}, {key: "inst", values:instQueueLoad}]; 
+        $scope.bufData = [{key: "avg", values:avgBufferSize}, {key: "inst", values:instBufferSize}]; 
         $scope.speedData = [{key: "down", values:downSpeed}, {key: "up", values:upSpeed}]; 
+        $scope.cwndData = [{key: "cwnd", values:cwnd}]; 
         $scope.canPlot=true; 
     };  
         
@@ -552,7 +557,7 @@ angular.module('partialsApplication').controller('NGraphsController', function($
             yAxis: {
                 axisLabel: 'y label',
                 tickFormat: function(d){
-                    return d3.format('d')(d);
+                    return d3.format('0.2f')(d);
                 },
                 axisLabelDistance: -10,
                 showMaxMin: true
@@ -574,7 +579,7 @@ angular.module('partialsApplication').controller('NGraphsController', function($
         };
     };
     $scope.qdOptions = $scope.options();
-    $scope.qdOptions.chart.yAxis.axisLabel = 'queue time(s)';
+    $scope.qdOptions.chart.yAxis.axisLabel = 'queue time(ms)';
     $scope.qdOptions.title.text = 'queue delay';
     $scope.bufOptions = $scope.options();
     $scope.bufOptions.chart.yAxis.axisLabel = 'buffer size(blocks)';
@@ -582,6 +587,9 @@ angular.module('partialsApplication').controller('NGraphsController', function($
     $scope.speedOptions = $scope.options();
     $scope.speedOptions.chart.yAxis.axisLabel = 'transfer speed (KB)';
     $scope.speedOptions.title.text = 'speed';
+    $scope.cwndOptions = $scope.options();
+    $scope.cwndOptions.chart.yAxis.axisLabel = 'cwnd (KB)';
+    $scope.cwndOptions.title.text = 'cwnd';
     // $scope.bufOptions.chart.yDomain = [0,20,40,60];
 
     // $scope.data = [{values: [{x:0,y:1},{x:1,y:1},{x:2,y:2},{x:3,y:3}], key: 'l1'}, {values: [{x:0,y:3},{x:1,y:3},{x:2,y:4},{x:3,y:5}], key: 'l2'}];
