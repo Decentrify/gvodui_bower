@@ -297,6 +297,7 @@ angular.module('partialsApplication').controller('NHTUploadController', ['$scope
     function ($scope, nHdfsEndpoint, nKafkaEndpoint, nRestCalls) {
         $scope.torrentId = "1";
         $scope.torrentName = "";
+        $scope.projectId = "0";
         $scope.manifestResource = {
             dirPath : "/experiment/upload/",
             fileName : "manifest.json"
@@ -306,7 +307,7 @@ angular.module('partialsApplication').controller('NHTUploadController', ['$scope
         $scope.upload = function () {
             var hdfsEndpointJSON = nHdfsEndpoint.getJSON();
             var manifestResourceJSON = nRestCalls.hdfsResourceJSON($scope.manifestResource);
-            var reqJSON = {"torrentId": {"val": $scope.torrentId}, "torrentName": $scope.torrentName, 
+            var reqJSON = {"torrentId": {"val": $scope.torrentId}, "torrentName": $scope.torrentName, "projectId": $scope.projectId, 
                 "hdfsEndpoint": hdfsEndpointJSON, "manifestHDFSResource": manifestResourceJSON};
             nRestCalls.htStartUpload(reqJSON).then(function (result) {
                  $scope.result = result;
@@ -320,6 +321,7 @@ angular.module('partialsApplication').controller('NHTDownloadController', ['$sco
     function ($scope, nHdfsEndpoint, nKafkaEndpoint, nRestCalls, hopsHelper) {
         $scope.torrentId = "1";
         $scope.torrentName = "";
+        $scope.projectId = "0";
         $scope.manifestResource = {
             dirPath : "/experiment/download/",
             fileName : "manifest.json"
@@ -339,7 +341,8 @@ angular.module('partialsApplication').controller('NHTDownloadController', ['$sco
             var hdfsEndpointJSON = nHdfsEndpoint.getJSON();
             var manifestResourceJSON = nRestCalls.hdfsResourceJSON($scope.manifestResource);
             var partnerJSON = nRestCalls.addressJSON($scope.partner);
-            var reqJSON = {"torrentId": torrentIdJSON, "hdfsEndpoint": hdfsEndpointJSON, "manifestHDFSResource": manifestResourceJSON,
+            var reqJSON = {"torrentId": torrentIdJSON, "torrentName": $scope.torrentName, "projectId": $scope.projectId,
+                "hdfsEndpoint": hdfsEndpointJSON, "manifestHDFSResource": manifestResourceJSON,
                 "partners": [partnerJSON]};
             nRestCalls.htStartDownload(reqJSON).then(function (result) {
                 $scope.result = result;
