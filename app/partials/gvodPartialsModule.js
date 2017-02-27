@@ -268,9 +268,10 @@ angular.module('partialsApplication').controller('NHTContentsController', ['$sco
             }
         }
         $scope.getContents = function () {
-            var json = {"projectId": $scope.projectId};
+            var json = {"projectIds": [$scope.projectId]};
             nRestCalls.nHTcontents(json).then(function (result) {
                 $scope.result = result;
+                $scope.data = result.data.contents[$scope.projectId];
                 $scope.done = true;
             });
 
@@ -286,7 +287,7 @@ angular.module('partialsApplication').controller('NTorrentStatusController', ['n
         self.getTorrentStatus = function () {
             var JSONObj = {"fileName": self.fileName, "torrentId": {"val" : self.torrentId}};
             nRestCalls.torrentStatus(JSONObj).then(function (result) {
-                self.result = result;
+                self.result = result[self.torrentId];
                 self.done = true;
             });
 

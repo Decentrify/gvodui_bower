@@ -8,7 +8,7 @@
         <div class="form-group">
             <input ng-model="selectProject" type=checkbox ng-click="click()">Project    
             <input ng-show="selectProject" type="text" class="form-control" id="inputProjectId" placeholder="ProjectId" ng-model="projectId">
-            <div ng-if="done" ng-repeat="file in result.data.contents " style="padding: 15px;">
+            <div ng-if="done" ng-repeat="file in data " style="padding: 15px;">
                 <div class="container-fluid" style="border-bottom: solid 1px black;">
                     <div class="col-md-3">
                         Name: {{file.fileName}}
