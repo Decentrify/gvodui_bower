@@ -19,7 +19,7 @@ angular.module('partialsApplication').factory('nRestCalls', ['$http', 'nRestServ
             console.log("contents " + JSON.stringify(json));
             return $http({
                 method: 'POST',
-                url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + '/library/contents',
+                url: nRestServerState.getURL() + ":" + nRestServerState.getPort() + '/library/basiccontents',
                 data: json
             });
         },
